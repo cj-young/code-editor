@@ -2,3 +2,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+  Theme from: 
+  https://www.realtimecolors.com/?colors=f4e6e6-0b0404-e38d8c-881816-eb302d&fonts=Poppins-Poppins
+*/
+@layer base {
+  :root {
+    --text: 25 11 11;
+    --background: 251 244 244;
+    --primary: 115 29 28;
+    --secondary: 233 121 119;
+    --accent: 210 23 20;
+  }
+  .dark {
+    --text: 244 230 230;
+    --background: 11 4 4;
+    --primary: 227 141 140;
+    --secondary: 136 24 22;
+    --accent: 235 48 45;
+  }
+}
