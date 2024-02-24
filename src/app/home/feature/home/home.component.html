@@ -1,3 +1,13 @@
-<div class="w-full h-full">
+<div class="w-full h-full grid grid-rows-[min-content_1fr]">
   <app-home-navbar></app-home-navbar>
+  <main class="px-16 overflow-y-auto">
+    <section>
+      <h2 class="text-text md:text-4xl text-3xl font-bold mt-16">
+        Your Sparks
+      </h2>
+      <ul class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+        <app-new-spark-button></app-new-spark-button>
+      </ul>
+    </section>
+  </main>
 </div>
