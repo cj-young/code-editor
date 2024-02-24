@@ -1,0 +1,16 @@
+<button
+  class="md:h-8 md:w-8 h-12 w-12 rounded-md bg-primary/50 flex items-center justify-center"
+  (click)="onClick()"
+>
+  @if (theme === "light") {
+  <app-moon-svg
+    class=""
+    svgClass="fill-primary md:w-4 md:h-4 h-6 w-6"
+  ></app-moon-svg>
+  } @else if (theme === "dark") {
+  <app-sun-svg
+    class=""
+    svgClass="fill-primary md:w-4 md:h-4 h-6 w-6"
+  ></app-sun-svg>
+  }
+</button>
