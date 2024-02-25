@@ -21,6 +21,9 @@
         autoCloseTags: true,
         scrollbarStyle: 'overlay',
         tabSize: 2,
+        extraKeys: {
+          'Ctrl-/': 'toggleComment'
+        }
       }"
       (ngModelChange)="onChange()"
     ></ngx-codemirror>

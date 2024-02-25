@@ -1,4 +1,5 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/closetag';
 import 'codemirror/addon/edit/matchbrackets';
