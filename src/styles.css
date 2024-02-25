@@ -30,6 +30,8 @@
     --text-900: 35 16 16;
     --text-950: 18 8 8;
 
+    /* 
+    Original backgrounds:
     --background-50: 248 236 236;
     --background-100: 241 218 218;
     --background-200: 228 180 180;
@@ -40,7 +42,19 @@
     --background-700: 112 41 41;
     --background-800: 75 27 27;
     --background-900: 37 14 14;
-    --background-950: 19 7 7;
+    --background-950: 19 7 7; */
+
+    --background-50: 248 236 236;
+    --background-100: 236, 229, 229;
+    --background-200: 206, 200, 200;
+    --background-300: 177, 171, 171;
+    --background-400: 149, 143, 143;
+    --background-500: 121, 116, 116;
+    --background-600: 95, 90, 90;
+    --background-700: 70, 65, 65;
+    --background-800: 46, 42, 42;
+    --background-900: 24, 20, 20;
+    --background-950: 19, 7, 7;
 
     --primary-50: 250 235 234;
     --primary-100: 245 214 214;
