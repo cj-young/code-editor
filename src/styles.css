@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "codemirror/lib/codemirror";
-@import "codemirror/theme/material";
+@import "./styles/cm-custom-dark.css";
+@import "./styles/cm-custom-light.css";
 @import "codemirror/addon/scroll/simplescrollbars";
 @tailwind base;
 @tailwind components;

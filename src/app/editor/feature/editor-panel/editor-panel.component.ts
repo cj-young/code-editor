@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { LanguageFormatterPipe } from '../../../shared/feature/language-formatter-pipe/language-formatter.pipe';
+import { ThemeService } from '../../../shared/feature/theme-service/theme.service';
 import { Language } from '../../../shared/types/language';
+import { Theme } from '../../../shared/types/theme';
 import { LanguageToModePipePipe } from '../../utils/language-to-mode-pipe/language-to-mode-pipe.pipe';
 
 const AUTO_SAVE_DELAY = 500;
@@ -25,12 +27,23 @@ const AUTO_SAVE_DELAY = 500;
     }
   `,
 })
-export class EditorPanelComponent {
+export class EditorPanelComponent implements OnInit {
   private saveTimeout = 0;
+  theme: Theme;
   code = '';
 
   @Input() language: Language = 'javascript';
   @Output() onSave = new EventEmitter<string>();
+
+  constructor(private themeService: ThemeService) {
+    this.theme = themeService.getTheme();
+  }
+
+  ngOnInit(): void {
+    this.themeService.currentTheme$.subscribe((newTheme) => {
+      this.theme = newTheme;
+    });
+  }
 
   onChange() {
     clearTimeout(this.saveTimeout);

@@ -1,7 +1,7 @@
 <div
   class="w-full h-full max-h-full min-h-0 grid grid-rows-[min-content_1fr] min-w-0 rounded-lg overflow-hidden"
 >
-  <div class="w-full py-2 px-3 flex gap-4 bg-background-100 items-center">
+  <div class="w-full py-2 px-3 flex gap-4 bg-background-200 items-center">
     <h2 class="text-text text-[1rem] font-bold">
       {{ language | languageFormatter }}
     </h2>
@@ -14,7 +14,7 @@
       [(ngModel)]="code"
       [options]="{
         lineNumbers: true,
-        theme: 'material',
+        theme: theme === 'light' ? 'custom-light' : 'custom-dark',
         mode: language | languageToModePipe,
         matchBrackets: true,
         autoCloseBrackets: true,
@@ -23,7 +23,8 @@
         tabSize: 2,
         extraKeys: {
           'Ctrl-/': 'toggleComment'
-        }
+        },
+        styleActiveLine: true
       }"
       (ngModelChange)="onChange()"
     ></ngx-codemirror>
