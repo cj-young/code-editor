@@ -132,8 +132,7 @@
 }
 
 .cm-s-custom-light .cm-error {
-  color: rgb(0, 0, 0);
-  background-color: hsl(350, 54%, 57%);
+  text-decoration: underline wavy #940707;
 }
 
 .cm-s-custom-light .CodeMirror-matchingbracket {
