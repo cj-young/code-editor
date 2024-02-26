@@ -139,3 +139,8 @@
   text-decoration: underline;
   color: #190b0b !important;
 }
+
+.cm-s-custom-light .CodeMirror-overlayscroll-horizontal div,
+.cm-s-custom-light .CodeMirror-overlayscroll-vertical div {
+  background: #cec8c8 !important;
+}
