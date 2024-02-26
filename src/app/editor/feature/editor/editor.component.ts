@@ -26,7 +26,6 @@ export class EditorComponent implements OnInit {
 
   onCssSave(newCode: string) {
     this.cssCode = newCode;
-
     this.updateFullCode();
   }
 
