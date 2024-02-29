@@ -65,4 +65,8 @@ export class EditorComponent {
   onSave(language: Language, newCode: string) {
     this.inputCode[language] = newCode;
   }
+
+  onClearConsole() {
+    this.consoleItems = [];
+  }
 }

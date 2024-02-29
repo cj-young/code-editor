@@ -33,7 +33,10 @@
         class="border-0 bg-white"
         [srcdoc]="fullCode | sanitizeHtml"
       ></iframe>
-      <app-console-output [consoleItems]="consoleItems"></app-console-output>
+      <app-console-output
+        [consoleItems]="consoleItems"
+        (clearItems)="onClearConsole()"
+      ></app-console-output>
     </div>
   </div>
 </div>

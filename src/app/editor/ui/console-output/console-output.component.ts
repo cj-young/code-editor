@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export type ConsoleLog = { type: 'log'; message: string };
 export type ConsoleError = {
@@ -20,4 +20,9 @@ export type ConsoleItem = ConsoleLog | ConsoleError | ConsoleWarn;
 })
 export class ConsoleOutputComponent {
   @Input() consoleItems: ConsoleItem[] = [];
+  @Output() clearItems = new EventEmitter();
+
+  onClear() {
+    this.clearItems.emit();
+  }
 }
