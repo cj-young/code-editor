@@ -9,13 +9,6 @@ import { EditorNavbarComponent } from '../editor-navbar/editor-navbar.component'
 import { EditorPanelComponent } from '../editor-panel/editor-panel.component';
 import iframeConfigCode from './iframe-config-code';
 
-// The amount of lines console method lines are from
-// input code line 1 by default.
-// i.e. if there is an error on input line 1, and
-// the error thrown says line 120, the offset is 119
-// due to other scripts
-const CONSOLE_LINE_OFFSET = 103;
-
 @Component({
   selector: 'app-editor',
   standalone: true,
