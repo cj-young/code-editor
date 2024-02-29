@@ -59,6 +59,8 @@ export class EditorComponent {
     } else if (data.type === 'warn') {
       const { message } = data as { message: string };
       this.consoleItems.push({ message, type: 'warn' });
+    } else if (data.type === 'clear') {
+      this.onClearConsole();
     }
   }
 

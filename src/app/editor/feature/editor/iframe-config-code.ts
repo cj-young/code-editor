@@ -79,8 +79,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   };
 
   const oldLog = console.log;
-  window.console.log = function (...args) {
-    oldLog("Console log running")
+  window.console.log = function(...args) {
     if (args.length > 0) {
       const fullLog = handleSubstitutions(...args);
       parent.postMessage({ type: "log", message: fullLog }, "*");
@@ -89,7 +88,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   };
 
   const oldError = console.error;
-  window.console.error = function (...args) {
+  window.console.error = function(...args) {
     if (args.length > 0) {
       const fullError = handleSubstitutions(...args);
       parent.postMessage({ type: "error", message: fullError }, "*");
@@ -98,11 +97,132 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   };
 
   const oldWarn = console.warn;
-  window.console.warn = function (...args) {
+  window.console.warn = function(...args) {
     if (args.length > 0) {
       const fullWarn = handleSubstitutions(...args);
       parent.postMessage({ type: "warn", message: fullWarn }, "*");
     }
     oldWarn.apply(console, args);
   };
+
+  const oldAssert = console.assert;
+  window.console.assert = function(...args) {
+    if (args.length > 0) {
+      if (!args[0]) {
+        const fullAssert = handleSubstitutions(...args.slice(1));
+        parent.postMessage({ type: "error", message: "Assertion failed: " + fullAssert }, "*");
+      }
+    }
+    oldAssert.apply(console, args);
+  };
+
+  const oldClear = console.clear;
+  window.console.clear = function() {
+    parent.postMessage({ type: "clear"}, "*");
+    oldClear.apply(console);
+  };
+
+  const counts = {}
+  const oldCount = console.count;
+  window.console.count = function(label = "default") {
+    if (label === undefined) return;
+    const stringifiedLabel = String(label);
+    counts[label] = (counts[label] ?? 0) + 1;
+    parent.postMessage({type: "log", message: label + ": " + counts[label]}, "*")
+    oldCount.call(console, label);
+  }
+  
+  const oldCountReset = console.countReset;
+  window.console.countReset = function(label = "default") {
+    const stringifiedLabel = String(label);
+    counts[stringifiedLabel] = 0;
+    parent.postMessage({type: "log", message: stringifiedLabel + ": " + counts[stringifiedLabel]}, "*")
+    oldCountReset.call(console, stringifiedLabel);
+  }
+
+  // Essentially a copy of log
+  const oldDebug = console.debug;
+  window.console.debug = function(...args) {
+    if (args.length > 0) {
+      const fullDebug = handleSubstitutions(...args);
+      parent.postMessage({ type: "log", message: fullDebug }, "*");
+    }
+    oldDebug.apply(console, args);
+  };
+
+  // Essentially a copy of log
+  const oldDir = console.dir;
+  window.console.dir = function(...args) {
+    if (args.length > 0) {
+      const fullDir = handleSubstitutions(...args);
+      parent.postMessage({ type: "log", message: fullDir }, "*");
+    }
+    oldDir.apply(console, args);
+  };
+
+  const oldInfo = console.info;
+  window.console.info = function(...args) {
+    if (args.length > 0) {
+      const fullInfo = handleSubstitutions(...args);
+      parent.postMessage({type: "log", message: "Info: " + fullInfo}, "*");
+    }
+  }
+
+  const times = {};
+  const oldTime = console.time;
+  window.console.time = function(label = "default") {
+    const stringifiedLabel = String(label);
+    if (times[stringifiedLabel] !== undefined) {
+      parent.postMessage({
+        type: "warn", 
+        message: \`Timer "\${stringifiedLabel}" is already in use\` 
+      }, "*")
+    } else {
+      times[stringifiedLabel] = performance.now();
+      parent.postMessage({
+        type: "log", 
+        message: \`"\${stringifiedLabel}": timer started\` 
+      }, "*")
+    }
+    oldTime.call(console, label);
+  }
+
+  const oldTimeLog = console.timeLog;
+  window.console.timeLog = function(label = "default") {
+    const stringifiedLabel = String(label);
+    if (times[stringifiedLabel] === undefined) {
+      parent.postMessage({
+        type: "warn", 
+        message: \`Timer "\${stringifiedLabel}" does not exist\` 
+      }, "*")
+    } else {
+      const elapsedTime = performance.now() - times[stringifiedLabel];
+      parent.postMessage({
+        type: "log", 
+        message: \`"\${stringifiedLabel}": \${elapsedTime}ms\` 
+      }, "*")
+    }
+    oldTimeLog.call(console, label);
+  }
+
+  const oldTimeEnd = console.timeEnd;
+  window.console.timeEnd = function(label = "default") {
+    const stringifiedLabel = String(label);
+    if (times[stringifiedLabel] === undefined) {
+      parent.postMessage({
+        type: "warn", 
+        message: \`Timer "\${stringifiedLabel}" does not exist\` 
+      }, "*")
+    } else {
+      const elapsedTime = performance.now() - times[stringifiedLabel];
+      parent.postMessage({
+        type: "log", 
+        message: \`"\${stringifiedLabel}": \${elapsedTime}ms - timer ended\` 
+      }, "*")
+      delete times[stringifiedLabel];
+    }
+    oldTimeEnd.call(console, label);
+  }
+
+
 }`;
