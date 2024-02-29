@@ -47,12 +47,7 @@ export class EditorComponent {
         source: string;
         error: Error;
       };
-      this.consoleItems.push({
-        message,
-        source,
-        error,
-        type: 'error',
-      });
+      this.consoleItems.push({ message, source, error, type: 'error' });
     } else if (data.type === 'log') {
       const { message } = data as { message: string };
       this.consoleItems.push({ message, type: 'log' });
