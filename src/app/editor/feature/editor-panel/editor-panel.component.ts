@@ -25,6 +25,10 @@ const AUTO_SAVE_DELAY = 500;
       max-height: 100% !important;
       max-width: 100% !important;
     }
+
+    :host {
+      @apply w-full h-full
+    }
   `,
 })
 export class EditorPanelComponent implements OnInit {

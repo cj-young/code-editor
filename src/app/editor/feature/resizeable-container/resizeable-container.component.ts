@@ -29,7 +29,7 @@ type DraggedHandle = {
   cursorOffset: number;
 } | null;
 
-type Direction = 'row' | 'column';
+export type Direction = 'row' | 'column';
 
 @Component({
   selector: 'app-resizeable-container',
@@ -48,7 +48,7 @@ export class ResizeableContainerComponent
 
   @Input() direction: Direction = 'row';
 
-  @Output() isDragging = new EventEmitter<boolean>();
+  @Output() isDragging = new EventEmitter<null | Direction>();
 
   @HostListener('window:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
@@ -91,7 +91,11 @@ export class ResizeableContainerComponent
   }
 
   @HostBinding('style.cursor') get cursor() {
-    return this.draggedHandle === null ? 'auto' : 'col-resize';
+    return this.draggedHandle === null
+      ? 'auto'
+      : this.direction === 'row'
+      ? 'col-resize'
+      : 'row-resize';
   }
 
   ngAfterContentInit(): void {
@@ -116,11 +120,11 @@ export class ResizeableContainerComponent
           handle,
           cursorOffset: offset,
         };
-        this.isDragging.emit(true);
+        this.isDragging.emit(this.direction);
       });
       handle.item.mouseUp.subscribe(() => {
         this.draggedHandle = null;
-        this.isDragging.emit(false);
+        this.isDragging.emit(null);
       });
     }
   }

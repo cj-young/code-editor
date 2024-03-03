@@ -7,6 +7,11 @@ import {
 import { SanitizeHtmlPipe } from '../../utils/sanitize-html.pipe';
 import { EditorNavbarComponent } from '../editor-navbar/editor-navbar.component';
 import { EditorPanelComponent } from '../editor-panel/editor-panel.component';
+import {
+  Direction,
+  ResizeableContainerComponent,
+} from '../resizeable-container/resizeable-container.component';
+import { ResizeableItemComponent } from '../resizeable-item/resizeable-item.component';
 import iframeConfigCode from './iframe-config-code';
 
 @Component({
@@ -17,6 +22,8 @@ import iframeConfigCode from './iframe-config-code';
     EditorPanelComponent,
     SanitizeHtmlPipe,
     ConsoleOutputComponent,
+    ResizeableContainerComponent,
+    ResizeableItemComponent,
   ],
   templateUrl: './editor.component.html',
 })
@@ -27,6 +34,9 @@ export class EditorComponent {
     javascript: '',
   };
   consoleItems: ConsoleItem[] = [];
+
+  mainDividerPos = 0.6;
+  resizingMode: null | Direction = null;
 
   get fullCode() {
     return `
@@ -65,5 +75,9 @@ export class EditorComponent {
 
   onClearConsole() {
     this.consoleItems = [];
+  }
+
+  onDragChange(isDragging: null | Direction) {
+    this.resizingMode = isDragging;
   }
 }
