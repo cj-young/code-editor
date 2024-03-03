@@ -5,6 +5,7 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -72,6 +73,7 @@ export class ResizeableItemComponent implements OnInit, AfterViewInit {
     this.mouseDown.emit(e);
   }
 
+  @HostListener('window:mouseup', ['$event'])
   onMouseUp(e: MouseEvent) {
     this.mouseUp.emit(e);
   }

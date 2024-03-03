@@ -4,6 +4,7 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
+  HostBinding,
   HostListener,
   Input,
   Output,
@@ -87,6 +88,10 @@ export class ResizeableContainerComponent
         nextItem = nextItem.next;
       }
     }
+  }
+
+  @HostBinding('style.cursor') get cursor() {
+    return this.draggedHandle === null ? 'auto' : 'col-resize';
   }
 
   ngAfterContentInit(): void {
