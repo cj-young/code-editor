@@ -34,10 +34,12 @@ const AUTO_SAVE_DELAY = 500;
 export class EditorPanelComponent implements OnInit {
   private saveTimeout = 0;
   theme: Theme;
-  code = '';
 
   @Input() language: Language = 'javascript';
   @Output() onSave = new EventEmitter<string>();
+
+  @Input() code = '';
+  @Output() codeChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private themeService: ThemeService) {
     this.theme = themeService.getTheme();
@@ -50,6 +52,7 @@ export class EditorPanelComponent implements OnInit {
   }
 
   onChange() {
+    this.codeChange.emit(this.code);
     clearTimeout(this.saveTimeout);
     this.saveTimeout = window.setTimeout(() => {
       this.saveCode();

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Language } from '../../../shared/types/language';
 import {
   ConsoleItem,
@@ -33,10 +33,19 @@ export class EditorComponent {
     css: '',
     javascript: '',
   };
+  workingInputCode: Record<Language, string> = {
+    html: '',
+    css: '',
+    javascript: '',
+  };
+  workingHtml = '';
   consoleItems: ConsoleItem[] = [];
 
   mainDividerPos = 0.6;
   resizingMode: null | Direction = null;
+
+  @ViewChild('desktopIframe') desktopIframe!: ElementRef;
+  @ViewChild('mobileIframe') mobileIframe!: ElementRef;
 
   get fullCode() {
     return `
@@ -51,6 +60,24 @@ export class EditorComponent {
   @HostListener('window:message', ['$event'])
   onMessage(e: MessageEvent) {
     const { data } = e;
+    const desktopIframeElement = this.desktopIframe
+      .nativeElement as HTMLIFrameElement;
+    const mobileIframeElement = this.mobileIframe
+      .nativeElement as HTMLIFrameElement;
+
+    if (
+      data.iframeName === 'output-desktop' &&
+      getComputedStyle(desktopIframeElement).visibility !== 'visible'
+    ) {
+      return;
+    }
+    if (
+      data.iframeName === 'output-mobile' &&
+      getComputedStyle(mobileIframeElement).visibility !== 'visible'
+    ) {
+      return;
+    }
+
     if (data.type === 'error') {
       const { message, source, error } = data as {
         message: string;

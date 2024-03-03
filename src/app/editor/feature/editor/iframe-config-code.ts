@@ -1,18 +1,24 @@
 export default `import objectInspect from "https://cdn.jsdelivr.net/npm/object-inspect@1.13.1/+esm";
-window.onerror = (message, source, lineNumber, colNumber, error) => {
-  parent.postMessage(
-    {
-      type: "error",
-      message,
-      source,
-      lineNumber,
-      colNumber,
-      error,
-    },
-    "*"
-  );
-};
+
 {
+  const sendConsoleMessage = (type, message = {}) => {
+    parent.postMessage({type, iframeName: window.name, ...message}, "*");
+  }
+
+  window.onerror = (message, source, lineNumber, colNumber, error) => {
+    parent.postMessage(
+      {
+        type: "error",
+        message,
+        source,
+        lineNumber,
+        colNumber,
+        error,
+      },
+      "*"
+    );
+  };
+
   const stringify = (obj) => {
     if (typeof obj === "string") return obj;
     if (typeof obj === "function") return Function.prototype.toString.call(obj);
@@ -82,7 +88,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.log = function(...args) {
     if (args.length > 0) {
       const fullLog = handleSubstitutions(...args);
-      parent.postMessage({ type: "log", message: fullLog }, "*");
+      sendConsoleMessage("log", {message: fullLog});
     }
     oldLog.apply(console, args);
   };
@@ -91,7 +97,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.error = function(...args) {
     if (args.length > 0) {
       const fullError = handleSubstitutions(...args);
-      parent.postMessage({ type: "error", message: fullError }, "*");
+      sendConsoleMessage("error", {message: fullError});
     }
     oldError.apply(console, args);
   };
@@ -100,7 +106,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.warn = function(...args) {
     if (args.length > 0) {
       const fullWarn = handleSubstitutions(...args);
-      parent.postMessage({ type: "warn", message: fullWarn }, "*");
+      sendConsoleMessage("warn", {message: fullWarn});
     }
     oldWarn.apply(console, args);
   };
@@ -110,7 +116,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
     if (args.length > 0) {
       if (!args[0]) {
         const fullAssert = handleSubstitutions(...args.slice(1));
-        parent.postMessage({ type: "error", message: "Assertion failed: " + fullAssert }, "*");
+        sendConsoleMessage("error", {message: "Assertion failed: " + fullAssert})
       }
     }
     oldAssert.apply(console, args);
@@ -118,7 +124,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
 
   const oldClear = console.clear;
   window.console.clear = function() {
-    parent.postMessage({ type: "clear"}, "*");
+    sendConsoleMessage("clear", {});
     oldClear.apply(console);
   };
 
@@ -128,7 +134,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
     if (label === undefined) return;
     const stringifiedLabel = String(label);
     counts[label] = (counts[label] ?? 0) + 1;
-    parent.postMessage({type: "log", message: label + ": " + counts[label]}, "*")
+    sendConsoleMessage("log", {message: label + ": " + counts[label]})
     oldCount.call(console, label);
   }
   
@@ -136,7 +142,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.countReset = function(label = "default") {
     const stringifiedLabel = String(label);
     counts[stringifiedLabel] = 0;
-    parent.postMessage({type: "log", message: stringifiedLabel + ": " + counts[stringifiedLabel]}, "*")
+    sendConsoleMessage("log", {message: stringifiedLabel + ": " + counts[stringifiedLabel]})
     oldCountReset.call(console, stringifiedLabel);
   }
 
@@ -145,7 +151,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.debug = function(...args) {
     if (args.length > 0) {
       const fullDebug = handleSubstitutions(...args);
-      parent.postMessage({ type: "log", message: fullDebug }, "*");
+      sendConsoleMessage("log", {message: fullDebug});
     }
     oldDebug.apply(console, args);
   };
@@ -155,7 +161,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.dir = function(...args) {
     if (args.length > 0) {
       const fullDir = handleSubstitutions(...args);
-      parent.postMessage({ type: "log", message: fullDir }, "*");
+      sendConsoleMessage("log", {message: fullDir});
     }
     oldDir.apply(console, args);
   };
@@ -164,7 +170,7 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.info = function(...args) {
     if (args.length > 0) {
       const fullInfo = handleSubstitutions(...args);
-      parent.postMessage({type: "log", message: "Info: " + fullInfo}, "*");
+      sendConsoleMessage("log", {message: "Info: " + fullInfo})
     }
   }
 
@@ -173,16 +179,14 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.time = function(label = "default") {
     const stringifiedLabel = String(label);
     if (times[stringifiedLabel] !== undefined) {
-      parent.postMessage({
-        type: "warn", 
-        message: \`Timer "\${stringifiedLabel}" is already in use\` 
-      }, "*")
+      sendConsoleMessage("warn", {
+        message: \`Timer "\${stringifiedLabel}" is already in use\`
+      });
     } else {
       times[stringifiedLabel] = performance.now();
-      parent.postMessage({
-        type: "log", 
-        message: \`"\${stringifiedLabel}": timer started\` 
-      }, "*")
+      sendConsoleMessage("log", {
+        message: \`"\${stringifiedLabel}": timer started\`
+      });
     }
     oldTime.call(console, label);
   }
@@ -191,16 +195,14 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.timeLog = function(label = "default") {
     const stringifiedLabel = String(label);
     if (times[stringifiedLabel] === undefined) {
-      parent.postMessage({
-        type: "warn", 
-        message: \`Timer "\${stringifiedLabel}" does not exist\` 
-      }, "*")
+      sendConsoleMessage("warn", {
+        message: \`Timer "\${stringifiedLabel}" does not exist\`
+      })
     } else {
       const elapsedTime = performance.now() - times[stringifiedLabel];
-      parent.postMessage({
-        type: "log", 
-        message: \`"\${stringifiedLabel}": \${elapsedTime}ms\` 
-      }, "*")
+      sendConsoleMessage("log", {
+        message: \`"\${stringifiedLabel}": \${elapsedTime}ms\`
+      })
     }
     oldTimeLog.call(console, label);
   }
@@ -209,20 +211,20 @@ window.onerror = (message, source, lineNumber, colNumber, error) => {
   window.console.timeEnd = function(label = "default") {
     const stringifiedLabel = String(label);
     if (times[stringifiedLabel] === undefined) {
-      parent.postMessage({
-        type: "warn", 
-        message: \`Timer "\${stringifiedLabel}" does not exist\` 
-      }, "*")
+      sendConsoleMessage("warn", {
+        message: \`Timer "\${stringifiedLabel}" does not exist\`
+      })
     } else {
       const elapsedTime = performance.now() - times[stringifiedLabel];
       parent.postMessage({
         type: "log", 
         message: \`"\${stringifiedLabel}": \${elapsedTime}ms - timer ended\` 
-      }, "*")
+      }, "*");
+      sendConsoleMessage("log", {
+        message: \`"\${stringifiedLabel}": \${elapsedTime}ms - timer ended\`
+      });
       delete times[stringifiedLabel];
     }
     oldTimeEnd.call(console, label);
   }
-
-
 }`;
