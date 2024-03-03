@@ -1,0 +1,8 @@
+<div
+  #container
+  (mousedown)="onMouseDown($event)"
+  (mouseup)="onMouseUp($event)"
+  [class]="'h-full w-full ' + (type === 'handle' ? 'cursor-col-resize' : '')"
+>
+  <ng-content></ng-content>
+</div>
