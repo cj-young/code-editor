@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Language } from '../../../shared/types/language';
 import {
   ConsoleItem,
@@ -27,7 +33,7 @@ import iframeConfigCode from './iframe-config-code';
   ],
   templateUrl: './editor.component.html',
 })
-export class EditorComponent {
+export class EditorComponent implements OnInit {
   inputCode: Record<Language, string> = {
     html: '',
     css: '',
@@ -64,7 +70,6 @@ export class EditorComponent {
       .nativeElement as HTMLIFrameElement;
     const mobileIframeElement = this.mobileIframe
       .nativeElement as HTMLIFrameElement;
-
     if (
       data.iframeName === 'output-desktop' &&
       getComputedStyle(desktopIframeElement).visibility !== 'visible'
@@ -96,8 +101,23 @@ export class EditorComponent {
     }
   }
 
+  ngOnInit(): void {
+    try {
+      const currentActiveSpark = localStorage.getItem('editorActiveSpark');
+      if (!currentActiveSpark) return;
+
+      const parsedCode = JSON.parse(currentActiveSpark);
+      this.workingInputCode = parsedCode;
+      this.inputCode = structuredClone(parsedCode);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   onSave(language: Language, newCode: string) {
+    console.log('on save running');
     this.inputCode[language] = newCode;
+    localStorage.setItem('editorActiveSpark', JSON.stringify(this.inputCode));
   }
 
   onClearConsole() {
