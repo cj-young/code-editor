@@ -102,25 +102,21 @@ export class ResizeableItemComponent implements OnInit, AfterViewInit {
     if (this.size === 0) {
       const newWidthPx = pixels;
       newSize = newWidthPx * this.widthToGrowFactor;
-      console.log(newSize);
     } else {
       const percentChange = pixels / currentSize;
       newSize = this.size * (1 + percentChange);
-      // newSize = this.size * (1 + pixels / (minSize ));
     }
 
     if (newSize < this.minSize) {
-      // leftoverPixels =
-      //   element.offsetWidth + pixels - this.size / this.widthToGrowFactor;
-      // newSize = this.minSize;
-
       const percentPixelsLeft =
         (this.minSize - newSize) / (this.size - newSize);
       leftoverPixels = percentPixelsLeft * pixels;
       newSize = this.minSize;
-
-      // new  -  min  -  current
-      // |-----  pixels  ----- |
+    } else if (newSize > this.maxSize) {
+      const percentPixelsLeft =
+        (newSize - this.maxSize) / (newSize - this.size);
+      leftoverPixels = percentPixelsLeft * pixels;
+      newSize = this.maxSize;
     }
 
     return { leftoverPixels, newSize };
