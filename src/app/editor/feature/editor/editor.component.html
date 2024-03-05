@@ -1,5 +1,5 @@
 <div class="w-full h-screen grid grid-rows-[auto_1fr]">
-  <app-editor-navbar></app-editor-navbar>
+  <app-editor-navbar [iframeElement]="desktopIframe"></app-editor-navbar>
   <div
     class="w-0 h-0 p-4 invisible pointer-events-none md:pointer-events-auto overflow-hidden md:visible md:w-full md:h-full md:opacity-100 absolute opacity-0 md:static"
   >
@@ -15,7 +15,11 @@
       >
         <div class="w-full h-full">
           <app-resizeable-container direction="column">
-            <app-resizeable-item type="item" [initialSize]="0.5">
+            <app-resizeable-item
+              type="item"
+              [initialSize]="0.5"
+              [minSize]="0.1"
+            >
               <div class="w-full h-full">
                 <app-resizeable-container>
                   <app-resizeable-item
@@ -50,7 +54,11 @@
             <app-resizeable-item type="handle">
               <div class="w-full h-4 cursor-row-resize"></div>
             </app-resizeable-item>
-            <app-resizeable-item type="item" [initialSize]="0.5">
+            <app-resizeable-item
+              type="item"
+              [initialSize]="0.5"
+              [minSize]="0.1"
+            >
               <app-editor-panel
                 language="javascript"
                 class="md:col-span-2"
@@ -76,7 +84,11 @@
             direction="column"
             (isDragging)="onDragChange($event)"
           >
-            <app-resizeable-item type="item" [initialSize]="0.7">
+            <app-resizeable-item
+              type="item"
+              [initialSize]="0.7"
+              [minSize]="0.1"
+            >
               <iframe
                 #desktopIframe
                 title="output"
@@ -89,12 +101,17 @@
                 [style]="{
               pointerEvents: resizingMode ? 'none' : 'auto',
             }"
+                allow="display-capture"
               ></iframe>
             </app-resizeable-item>
             <app-resizeable-item type="handle">
               <div class="w-full h-4 cursor-row-resize"></div>
             </app-resizeable-item>
-            <app-resizeable-item type="item" [initialSize]="0.3">
+            <app-resizeable-item
+              type="item"
+              [initialSize]="0.3"
+              [minSize]="0.1"
+            >
               <div
                 class="absolute inset-0 pointer-events-none z-50"
                 [style]="{

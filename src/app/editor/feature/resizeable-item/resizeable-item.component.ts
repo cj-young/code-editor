@@ -23,7 +23,7 @@ export type ParentDirection = 'row' | 'column';
   templateUrl: './resizeable-item.component.html',
   styles: `
     :host {
-      @apply flex-shrink-0
+      @apply flex-shrink-0 min-w-0 min-h-0
     }
   `,
 })

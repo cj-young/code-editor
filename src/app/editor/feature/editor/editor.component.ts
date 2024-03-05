@@ -3,6 +3,7 @@ import {
   ElementRef,
   HostListener,
   OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { Language } from '../../../shared/types/language';
@@ -52,6 +53,8 @@ export class EditorComponent implements OnInit {
 
   @ViewChild('desktopIframe') desktopIframe!: ElementRef;
   @ViewChild('mobileIframe') mobileIframe!: ElementRef;
+
+  constructor(private renderer: Renderer2) {}
 
   get fullCode() {
     return `
@@ -126,5 +129,10 @@ export class EditorComponent implements OnInit {
 
   onDragChange(isDragging: null | Direction) {
     this.resizingMode = isDragging;
+    this.renderer.setStyle(
+      document.body,
+      'user-select',
+      isDragging ? 'none' : 'auto'
+    );
   }
 }
