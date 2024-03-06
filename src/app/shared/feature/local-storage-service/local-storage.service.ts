@@ -38,4 +38,10 @@ export class LocalStorageService {
     localStorage.setItem('sparkIds', JSON.stringify(sparkIdList));
     localStorage.setItem('personalSparks', JSON.stringify(personalSparks));
   }
+
+  getPersonalSparks() {
+    const sparks = localStorage.getItem('personalSparks');
+    if (!sparks) return [];
+    return JSON.parse(sparks);
+  }
 }

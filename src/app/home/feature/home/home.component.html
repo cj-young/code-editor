@@ -8,7 +8,16 @@
       <ul
         class="grid gap-3 mt-4 grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))]"
       >
-        <app-new-spark-button></app-new-spark-button>
+        <app-new-spark-button role="listitem"></app-new-spark-button>
+        @for (spark of personalSparks; track spark.id) {
+        <app-spark-preview
+          [name]="spark.name"
+          [imageUrl]="spark.imageUrl"
+          [id]="spark.id"
+          type="personal"
+          role="listitem"
+        ></app-spark-preview>
+        }
       </ul>
     </section>
   </main>

@@ -1,0 +1,17 @@
+<a
+  class="w-full group aspect-[16/10] bg-background-300 rounded-md flex items-center justify-center flex-col overflow-hidden"
+  [routerLink]="'/saved/' + id"
+>
+  <div class="flex-grow bg-background-300 w-full overflow-hidden p-2 pb-0">
+    <div class="overflow-hidden w-full h-full rounded-sm rounded-b-none">
+      <img
+        [src]="imageUrl"
+        alt=""
+        class="object-cover group-hover:scale-150 scale-125 transition-transform"
+      />
+    </div>
+  </div>
+  <div class="px-4 py-2 text-text font-bold text-lg w-full bg-background-200">
+    {{ name }}
+  </div>
+</a>
