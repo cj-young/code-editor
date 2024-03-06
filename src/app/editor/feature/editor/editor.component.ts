@@ -16,6 +16,7 @@ import { SanitizeHtmlPipe } from '../../utils/sanitize-html.pipe';
 import { EditorNavbarComponent } from '../editor-navbar/editor-navbar.component';
 import { EditorPanelComponent } from '../editor-panel/editor-panel.component';
 import { EditorScreenshotService } from '../editor-screenshot/editor-screenshot.service';
+import { EditorService } from '../editor-service/editor.service';
 import {
   Direction,
   ResizeableContainerComponent,
@@ -37,11 +38,6 @@ import iframeConfigCode from './iframe-config-code';
   templateUrl: './editor.component.html',
 })
 export class EditorComponent implements OnInit, AfterViewInit {
-  inputCode: Record<Language, string> = {
-    html: '',
-    css: '',
-    javascript: '',
-  };
   workingInputCode: Record<Language, string> = {
     html: '',
     css: '',
@@ -58,16 +54,17 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   constructor(
     private renderer: Renderer2,
-    private editorScreenshotService: EditorScreenshotService
+    private editorScreenshotService: EditorScreenshotService,
+    private editorService: EditorService
   ) {}
 
   get fullCode() {
     return `
     <html>
-      <body>${this.inputCode.html}</body>
-      <style>${this.inputCode.css}</style>  
+      <body>${this.editorService.inputCode.html}</body>
+      <style>${this.editorService.inputCode.css}</style>  
       <script type="module">${iframeConfigCode}</script>
-      <script type="module">${this.inputCode.javascript}</script>
+      <script type="module">${this.editorService.inputCode.javascript}</script>
     </html>`;
   }
 
@@ -116,7 +113,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
       const parsedCode = JSON.parse(currentActiveSpark);
       this.workingInputCode = parsedCode;
-      this.inputCode = structuredClone(parsedCode);
+      this.editorService.inputCode = structuredClone(parsedCode);
     } catch (error) {
       console.error(error);
     }
@@ -129,8 +126,11 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   onSave(language: Language, newCode: string) {
     console.log('on save running');
-    this.inputCode[language] = newCode;
-    localStorage.setItem('editorActiveSpark', JSON.stringify(this.inputCode));
+    this.editorService.inputCode[language] = newCode;
+    localStorage.setItem(
+      'editorActiveSpark',
+      JSON.stringify(this.editorService.inputCode)
+    );
   }
 
   onClearConsole() {
