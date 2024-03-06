@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Storage } from '@angular/fire/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { LocalStorageService } from '../../../shared/feature/local-storage-service/local-storage.service';
 import { LogoLinkComponent } from '../../../shared/feature/logo-link/logo-link.component';
@@ -19,7 +18,6 @@ export class SavedNavbarComponent {
   constructor(
     private localStorageService: LocalStorageService,
     private editorScreenshotService: EditorScreenshotService,
-    private fbStorage: Storage,
     private editorService: EditorService
   ) {}
 
@@ -27,7 +25,7 @@ export class SavedNavbarComponent {
     this.isSaving = true;
     const dataUrl = await this.editorScreenshotService.getScreenShot();
     if (!dataUrl) return;
-    const sparkId = uuidv4();
+    const sparkId = this.editorService.sparkId ?? uuidv4();
     const imageUrl = await this.editorScreenshotService.uploadThumbail(
       dataUrl,
       sparkId

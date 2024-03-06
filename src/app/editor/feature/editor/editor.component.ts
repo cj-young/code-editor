@@ -138,6 +138,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
           this.workingInputCode = spark.code;
           this.editorService.inputCode = structuredClone(spark.code);
           this.editorService.sparkName = spark.name;
+          this.editorService.sparkId = spark.id;
         });
       }
     } catch (error) {

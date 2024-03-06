@@ -12,6 +12,7 @@ export class EditorService {
     javascript: '',
   };
   sparkName?: string;
+  sparkId?: string;
 
   constructor(private localStorageService: LocalStorageService) {}
 }
