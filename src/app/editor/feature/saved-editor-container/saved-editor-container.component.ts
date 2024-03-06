@@ -7,6 +7,5 @@ import { SavedNavbarComponent } from '../saved-navbar/saved-navbar.component';
   standalone: true,
   imports: [EditorComponent, SavedNavbarComponent],
   templateUrl: './saved-editor-container.component.html',
-  styles: ``,
 })
 export class SavedEditorContainerComponent {}

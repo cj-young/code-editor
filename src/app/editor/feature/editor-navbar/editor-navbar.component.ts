@@ -10,6 +10,11 @@ import { SaveModalComponent } from '../save-modal/save-modal.component';
   standalone: true,
   imports: [LogoLinkComponent, ThemeToggleComponent, FloppyDiskSvgComponent],
   templateUrl: './editor-navbar.component.html',
+  styles: `
+    :host {
+      @apply w-full overflow-x-auto
+    }
+  `,
 })
 export class EditorNavbarComponent {
   constructor(private modalService: ModalService) {}

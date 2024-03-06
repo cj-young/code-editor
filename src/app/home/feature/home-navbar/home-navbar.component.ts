@@ -7,6 +7,10 @@ import { ThemeToggleComponent } from '../../../shared/feature/theme-toggle/theme
   standalone: true,
   imports: [LogoLinkComponent, ThemeToggleComponent],
   templateUrl: './home-navbar.component.html',
-  styles: ``,
+  styles: `
+    :host {
+      @apply w-full overflow-x-auto
+    }
+  `,
 })
 export class HomeNavbarComponent {}

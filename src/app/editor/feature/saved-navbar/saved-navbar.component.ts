@@ -12,6 +12,11 @@ import { EditorService } from '../editor-service/editor.service';
   standalone: true,
   imports: [LogoLinkComponent, FloppyDiskSvgComponent, ThemeToggleComponent],
   templateUrl: './saved-navbar.component.html',
+  styles: `
+    :host {
+      @apply w-full overflow-x-auto
+    }
+  `,
 })
 export class SavedNavbarComponent implements OnInit {
   isSaving = false;
