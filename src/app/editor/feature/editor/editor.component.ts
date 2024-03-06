@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -14,6 +15,7 @@ import {
 import { SanitizeHtmlPipe } from '../../utils/sanitize-html.pipe';
 import { EditorNavbarComponent } from '../editor-navbar/editor-navbar.component';
 import { EditorPanelComponent } from '../editor-panel/editor-panel.component';
+import { EditorScreenshotService } from '../editor-screenshot/editor-screenshot.service';
 import {
   Direction,
   ResizeableContainerComponent,
@@ -34,7 +36,7 @@ import iframeConfigCode from './iframe-config-code';
   ],
   templateUrl: './editor.component.html',
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, AfterViewInit {
   inputCode: Record<Language, string> = {
     html: '',
     css: '',
@@ -54,7 +56,10 @@ export class EditorComponent implements OnInit {
   @ViewChild('desktopIframe') desktopIframe!: ElementRef;
   @ViewChild('mobileIframe') mobileIframe!: ElementRef;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private editorScreenshotService: EditorScreenshotService
+  ) {}
 
   get fullCode() {
     return `
@@ -115,6 +120,11 @@ export class EditorComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  ngAfterViewInit(): void {
+    const desktopIframeElement = this.desktopIframe;
+    this.editorScreenshotService.iframeElement = desktopIframeElement;
   }
 
   onSave(language: Language, newCode: string) {

@@ -1,4 +1,5 @@
 export default `import objectInspect from "https://cdn.jsdelivr.net/npm/object-inspect@1.13.1/+esm";
+import domToImage from 'https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/+esm'
 
 {
   const sendConsoleMessage = (type, message = {}) => {
@@ -227,4 +228,18 @@ export default `import objectInspect from "https://cdn.jsdelivr.net/npm/object-i
     }
     oldTimeEnd.call(console, label);
   }
+
+  window.addEventListener("message", function(e) {
+    try {
+      const parsed = JSON.parse(e.data)
+      if (parsed.type === "sendScreenshot") {
+        const bodyBackground = getComputedStyle(document.body).backgroundColor;
+        domToImage.toJpeg(document.body, {width: 1366 , height: 768, bgcolor: bodyBackground ?? "#ffffff"}).then(function(dataUrl) {
+          parent.postMessage({type: "screenshotResult", dataUrl, id: parsed.id}, "*");
+        })
+      }
+    } catch (error) {
+      oldError(error);
+    }
+  })
 }`;
