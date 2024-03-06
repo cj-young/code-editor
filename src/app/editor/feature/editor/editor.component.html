@@ -1,170 +1,148 @@
-<div class="w-full h-screen grid grid-rows-[auto_1fr]">
-  <app-editor-navbar></app-editor-navbar>
-  <div
-    class="w-0 h-0 p-4 invisible pointer-events-none md:pointer-events-auto overflow-hidden md:visible md:w-full md:h-full md:opacity-100 absolute opacity-0 md:static"
-  >
-    <app-resizeable-container
-      direction="row"
-      (isDragging)="onDragChange($event)"
+<div
+  class="w-0 h-0 p-4 invisible pointer-events-none md:pointer-events-auto overflow-hidden md:visible md:w-full md:h-full md:opacity-100 absolute opacity-0 md:static"
+>
+  <app-resizeable-container direction="row" (isDragging)="onDragChange($event)">
+    <app-resizeable-item
+      [initialSize]="0.6"
+      type="item"
+      [maxSize]="0.8"
+      [minSize]="0.3"
     >
-      <app-resizeable-item
-        [initialSize]="0.6"
-        type="item"
-        [maxSize]="0.8"
-        [minSize]="0.3"
-      >
-        <div class="w-full h-full">
-          <app-resizeable-container direction="column">
-            <app-resizeable-item
-              type="item"
-              [initialSize]="0.5"
-              [minSize]="0.1"
-            >
-              <div class="w-full h-full">
-                <app-resizeable-container>
-                  <app-resizeable-item
-                    type="item"
-                    [initialSize]="0.5"
-                    [minSize]="0.1"
-                  >
-                    <app-editor-panel
-                      language="html"
-                      (onSave)="onSave('html', $event)"
-                      class="h-full max-h-full min-h-0"
-                      [(code)]="workingInputCode.html"
-                    ></app-editor-panel>
-                  </app-resizeable-item>
-                  <app-resizeable-item type="handle">
-                    <div class="cursor-col-resize w-4 min-w-4"></div>
-                  </app-resizeable-item>
-                  <app-resizeable-item
-                    type="item"
-                    [initialSize]="0.5"
-                    [minSize]="0.1"
-                  >
-                    <app-editor-panel
-                      language="css"
-                      (onSave)="onSave('css', $event)"
-                      [(code)]="workingInputCode.css"
-                    ></app-editor-panel>
-                  </app-resizeable-item>
-                </app-resizeable-container>
-              </div>
-            </app-resizeable-item>
-            <app-resizeable-item type="handle">
-              <div class="w-full h-4 cursor-row-resize"></div>
-            </app-resizeable-item>
-            <app-resizeable-item
-              type="item"
-              [initialSize]="0.5"
-              [minSize]="0.1"
-            >
-              <app-editor-panel
-                language="javascript"
-                class="md:col-span-2"
-                (onSave)="onSave('javascript', $event)"
-                [(code)]="workingInputCode.javascript"
-              ></app-editor-panel>
-            </app-resizeable-item>
-          </app-resizeable-container>
-        </div>
-      </app-resizeable-item>
+      <div class="w-full h-full">
+        <app-resizeable-container direction="column">
+          <app-resizeable-item type="item" [initialSize]="0.5" [minSize]="0.1">
+            <div class="w-full h-full">
+              <app-resizeable-container>
+                <app-resizeable-item
+                  type="item"
+                  [initialSize]="0.5"
+                  [minSize]="0.1"
+                >
+                  <app-editor-panel
+                    language="html"
+                    (onSave)="onSave('html', $event)"
+                    class="h-full max-h-full min-h-0"
+                    [(code)]="workingInputCode.html"
+                  ></app-editor-panel>
+                </app-resizeable-item>
+                <app-resizeable-item type="handle">
+                  <div class="cursor-col-resize w-4 min-w-4"></div>
+                </app-resizeable-item>
+                <app-resizeable-item
+                  type="item"
+                  [initialSize]="0.5"
+                  [minSize]="0.1"
+                >
+                  <app-editor-panel
+                    language="css"
+                    (onSave)="onSave('css', $event)"
+                    [(code)]="workingInputCode.css"
+                  ></app-editor-panel>
+                </app-resizeable-item>
+              </app-resizeable-container>
+            </div>
+          </app-resizeable-item>
+          <app-resizeable-item type="handle">
+            <div class="w-full h-4 cursor-row-resize"></div>
+          </app-resizeable-item>
+          <app-resizeable-item type="item" [initialSize]="0.5" [minSize]="0.1">
+            <app-editor-panel
+              language="javascript"
+              class="md:col-span-2"
+              (onSave)="onSave('javascript', $event)"
+              [(code)]="workingInputCode.javascript"
+            ></app-editor-panel>
+          </app-resizeable-item>
+        </app-resizeable-container>
+      </div>
+    </app-resizeable-item>
 
-      <app-resizeable-item type="handle">
-        <div class="cursor-col-resize w-4 min-w-4"></div>
-      </app-resizeable-item>
-      <app-resizeable-item
-        type="item"
-        [initialSize]="0.4"
-        [maxSize]="0.8"
-        [minSize]="0.1"
-      >
-        <div class="w-full h-full">
-          <app-resizeable-container
-            direction="column"
-            (isDragging)="onDragChange($event)"
-          >
-            <app-resizeable-item
-              type="item"
-              [initialSize]="0.7"
-              [minSize]="0.1"
-            >
-              <iframe
-                #desktopIframe
-                title="output"
-                name="output-desktop"
-                sandbox="allow-scripts"
-                width="100%"
-                height="100%"
-                class="border-0 bg-white z-0"
-                [srcdoc]="fullCode | sanitizeHtml"
-                [style]="{
+    <app-resizeable-item type="handle">
+      <div class="cursor-col-resize w-4 min-w-4"></div>
+    </app-resizeable-item>
+    <app-resizeable-item
+      type="item"
+      [initialSize]="0.4"
+      [maxSize]="0.8"
+      [minSize]="0.1"
+    >
+      <div class="w-full h-full">
+        <app-resizeable-container
+          direction="column"
+          (isDragging)="onDragChange($event)"
+        >
+          <app-resizeable-item type="item" [initialSize]="0.7" [minSize]="0.1">
+            <iframe
+              #desktopIframe
+              title="output"
+              name="output-desktop"
+              sandbox="allow-scripts"
+              width="100%"
+              height="100%"
+              class="border-0 bg-white z-0"
+              [srcdoc]="fullCode | sanitizeHtml"
+              [style]="{
               pointerEvents: resizingMode ? 'none' : 'auto',
             }"
-                allow="display-capture"
-              ></iframe>
-            </app-resizeable-item>
-            <app-resizeable-item type="handle">
-              <div class="w-full h-4 cursor-row-resize"></div>
-            </app-resizeable-item>
-            <app-resizeable-item
-              type="item"
-              [initialSize]="0.3"
-              [minSize]="0.1"
-            >
-              <div
-                class="absolute inset-0 pointer-events-none z-50"
-                [style]="{
+              allow="display-capture"
+            ></iframe>
+          </app-resizeable-item>
+          <app-resizeable-item type="handle">
+            <div class="w-full h-4 cursor-row-resize"></div>
+          </app-resizeable-item>
+          <app-resizeable-item type="item" [initialSize]="0.3" [minSize]="0.1">
+            <div
+              class="absolute inset-0 pointer-events-none z-50"
+              [style]="{
           display: resizingMode ? 'block' : 'none',
         }"
-                (mousemove)="$event.stopPropagation()"
-              ></div>
-              <app-console-output
-                [consoleItems]="consoleItems"
-                (clearItems)="onClearConsole()"
-              ></app-console-output>
-            </app-resizeable-item>
-          </app-resizeable-container>
-        </div>
-      </app-resizeable-item>
-    </app-resizeable-container>
-  </div>
-  <div
-    class="w-full p-4 md:p-0 pointer-events-auto md:pointer-events-none md:overflow-hidden md:absolute md:invisible md:w-0 md:h-0 md:opacity-0 grid grid-cols-1 grid-rows-[20rem_20rem_20rem_20rem_20rem] gap-4"
-  >
-    <iframe
-      #mobileIframe
-      title="output-mobile"
-      name="output-mobile"
-      sandbox="allow-scripts"
-      width="100%"
-      height="100%"
-      class="border-0 bg-white z-0"
-      [srcdoc]="fullCode | sanitizeHtml"
-      [style]="{
+              (mousemove)="$event.stopPropagation()"
+            ></div>
+            <app-console-output
+              [consoleItems]="consoleItems"
+              (clearItems)="onClearConsole()"
+            ></app-console-output>
+          </app-resizeable-item>
+        </app-resizeable-container>
+      </div>
+    </app-resizeable-item>
+  </app-resizeable-container>
+</div>
+<div
+  class="w-full p-4 md:p-0 pointer-events-auto md:pointer-events-none md:overflow-hidden md:absolute md:invisible md:w-0 md:h-0 md:opacity-0 grid grid-cols-1 grid-rows-[20rem_20rem_20rem_20rem_20rem] gap-4"
+>
+  <iframe
+    #mobileIframe
+    title="output-mobile"
+    name="output-mobile"
+    sandbox="allow-scripts"
+    width="100%"
+    height="100%"
+    class="border-0 bg-white z-0"
+    [srcdoc]="fullCode | sanitizeHtml"
+    [style]="{
               pointerEvents: resizingMode ? 'none' : 'auto',
             }"
-    ></iframe>
-    <app-editor-panel
-      language="html"
-      (onSave)="onSave('html', $event)"
-      class="h-full max-h-full min-h-0"
-      [(code)]="workingInputCode.html"
-    ></app-editor-panel>
-    <app-editor-panel
-      language="css"
-      (onSave)="onSave('css', $event)"
-      [(code)]="workingInputCode.css"
-    ></app-editor-panel>
-    <app-editor-panel
-      language="javascript"
-      class="md:col-span-2"
-      (onSave)="onSave('javascript', $event)"
-      [(code)]="workingInputCode.javascript"
-    ></app-editor-panel>
-    <app-console-output
-      [consoleItems]="consoleItems"
-      (clearItems)="onClearConsole()"
-    ></app-console-output>
-  </div>
+  ></iframe>
+  <app-editor-panel
+    language="html"
+    (onSave)="onSave('html', $event)"
+    class="h-full max-h-full min-h-0"
+    [(code)]="workingInputCode.html"
+  ></app-editor-panel>
+  <app-editor-panel
+    language="css"
+    (onSave)="onSave('css', $event)"
+    [(code)]="workingInputCode.css"
+  ></app-editor-panel>
+  <app-editor-panel
+    language="javascript"
+    class="md:col-span-2"
+    (onSave)="onSave('javascript', $event)"
+    [(code)]="workingInputCode.javascript"
+  ></app-editor-panel>
+  <app-console-output
+    [consoleItems]="consoleItems"
+    (clearItems)="onClearConsole()"
+  ></app-console-output>
 </div>

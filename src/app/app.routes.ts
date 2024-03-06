@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { EditorComponent } from './editor/feature/editor/editor.component';
+import { EditorContainerComponent } from './editor/feature/editor-container/editor-container.component';
 import { HomeComponent } from './home/feature/home/home.component';
 
 export const routes: Routes = [
@@ -10,6 +10,6 @@ export const routes: Routes = [
   },
   {
     path: 'create',
-    component: EditorComponent,
+    component: EditorContainerComponent,
   },
 ];
