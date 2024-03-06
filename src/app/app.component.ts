@@ -1,12 +1,13 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ModalContainerComponent } from './shared/feature/modal-container/modal-container.component';
 import { ThemeService } from './shared/feature/theme-service/theme.service';
 import { Theme } from './shared/types/theme';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ModalContainerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

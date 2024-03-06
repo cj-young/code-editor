@@ -1,0 +1,11 @@
+<dialog
+  #dialog
+  class="backdrop:bg-background-100 backdrop:opacity-75 bg-transparent border-none w-full h-full flex items-center justify-center"
+  (click)="onClick($event)"
+  (close)="onClose()"
+  (cancel)="onClose()"
+>
+  <ng-container
+    *ngComponentOutlet="innerComponent; inputs: componentInputs"
+  ></ng-container>
+</dialog>
