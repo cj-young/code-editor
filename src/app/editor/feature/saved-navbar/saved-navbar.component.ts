@@ -25,15 +25,15 @@ export class SavedNavbarComponent {
     this.isSaving = true;
     const dataUrl = await this.editorScreenshotService.getScreenShot();
     if (!dataUrl) return;
-    const sparkId = this.editorService.sparkId ?? uuidv4();
+    const sparkId = this.editorService.sparkId.value ?? uuidv4();
     const imageUrl = await this.editorScreenshotService.uploadThumbail(
       dataUrl,
       sparkId
     );
 
     this.localStorageService.addSpark(
-      this.editorService.inputCode,
-      this.editorService.sparkName ?? '',
+      this.editorService.inputCode.getValue(),
+      this.editorService.sparkName.value ?? '',
       sparkId,
       imageUrl
     );

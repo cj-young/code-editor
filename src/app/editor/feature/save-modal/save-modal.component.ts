@@ -56,7 +56,7 @@ export class SaveModalComponent implements OnInit {
         );
 
         this.localStorageService.addSpark(
-          this.editorService.inputCode,
+          this.editorService.inputCode.getValue(),
           this.sparkName,
           sparkId,
           imageUrl

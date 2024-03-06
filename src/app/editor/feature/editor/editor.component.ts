@@ -70,10 +70,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
   get fullCode() {
     return `
     <html>
-      <body>${this.editorService.inputCode.html}</body>
-      <style>${this.editorService.inputCode.css}</style>  
+      <body>${this.editorService.inputCode.value.html}</body>
+      <style>${this.editorService.inputCode.value.css}</style>  
       <script type="module">${iframeConfigCode}</script>
-      <script type="module">${this.editorService.inputCode.javascript}</script>
+      <script type="module">${this.editorService.inputCode.value.javascript}</script>
     </html>`;
   }
 
@@ -123,7 +123,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
         const parsedCode = JSON.parse(currentActiveSpark);
         this.workingInputCode = parsedCode;
-        this.editorService.inputCode = structuredClone(parsedCode);
+        this.editorService.inputCode.next(structuredClone(parsedCode));
       } else if (this.type === 'saved') {
         this.route.paramMap.subscribe((params) => {
           const id = params.get('id');
@@ -136,9 +136,9 @@ export class EditorComponent implements OnInit, AfterViewInit {
             this.router.navigate(['/create']);
           }
           this.workingInputCode = spark.code;
-          this.editorService.inputCode = structuredClone(spark.code);
-          this.editorService.sparkName = spark.name;
-          this.editorService.sparkId = spark.id;
+          this.editorService.inputCode.next(structuredClone(spark.code));
+          this.editorService.sparkName.next(spark.name);
+          this.editorService.sparkId.next(spark.id);
         });
       }
     } catch (error) {
@@ -152,11 +152,13 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
 
   onSave(language: Language, newCode: string) {
-    this.editorService.inputCode[language] = newCode;
+    const currCode = this.editorService.inputCode.value;
+    currCode[language] = newCode;
+    this.editorService.inputCode.next(currCode);
     if (this.type === 'unsaved') {
       localStorage.setItem(
         'editorActiveSpark',
-        JSON.stringify(this.editorService.inputCode)
+        JSON.stringify(this.editorService.inputCode.value)
       );
     }
   }
