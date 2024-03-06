@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import { LocalStorageService } from '../../../shared/feature/local-storage-service/local-storage.service';
 import { LogoLinkComponent } from '../../../shared/feature/logo-link/logo-link.component';
@@ -13,13 +13,22 @@ import { EditorService } from '../editor-service/editor.service';
   imports: [LogoLinkComponent, FloppyDiskSvgComponent, ThemeToggleComponent],
   templateUrl: './saved-navbar.component.html',
 })
-export class SavedNavbarComponent {
+export class SavedNavbarComponent implements OnInit {
   isSaving = false;
+  sparkName: string | null = null;
   constructor(
     private localStorageService: LocalStorageService,
     private editorScreenshotService: EditorScreenshotService,
     private editorService: EditorService
   ) {}
+
+  ngOnInit(): void {
+    this.editorService.sparkName.subscribe((newName) => {
+      console.log('THE SPARK NAME CHANGEDDDD');
+      console.log(newName);
+      this.sparkName = newName;
+    });
+  }
 
   async onSave() {
     this.isSaving = true;
