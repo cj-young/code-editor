@@ -3,12 +3,18 @@ import { LogoLinkComponent } from '../../../shared/feature/logo-link/logo-link.c
 import { ModalService } from '../../../shared/feature/modal-service/modal.service';
 import { ThemeToggleComponent } from '../../../shared/feature/theme-toggle/theme-toggle.component';
 import { FloppyDiskSvgComponent } from '../../../shared/ui/floppy-disk-svg/floppy-disk-svg.component';
+import { ShareSvgComponent } from '../../../shared/ui/share-svg/share-svg.component';
 import { SaveModalComponent } from '../save-modal/save-modal.component';
 
 @Component({
   selector: 'app-editor-navbar',
   standalone: true,
-  imports: [LogoLinkComponent, ThemeToggleComponent, FloppyDiskSvgComponent],
+  imports: [
+    LogoLinkComponent,
+    ThemeToggleComponent,
+    FloppyDiskSvgComponent,
+    ShareSvgComponent,
+  ],
   templateUrl: './editor-navbar.component.html',
   styles: `
     :host {
@@ -19,7 +25,9 @@ import { SaveModalComponent } from '../save-modal/save-modal.component';
 export class EditorNavbarComponent {
   constructor(private modalService: ModalService) {}
 
-  onClick() {
+  onSaveClick() {
     this.modalService.openModal(SaveModalComponent);
   }
+
+  onShareClick() {}
 }

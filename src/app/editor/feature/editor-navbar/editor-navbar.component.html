@@ -1,15 +1,22 @@
 <nav
-  class="min-w-[30rem] w-full py-4 px-6 border-b-[1px] border-text/15 flex items-center"
+  class="min-w-[30rem] w-full py-4 px-6 border-b-[1px] border-text/15 flex items-center gap-4"
 >
   <app-logo-link></app-logo-link>
   <button
     class="flex md:px-4 md:py-2 px-6 py-3 ml-auto rounded-md bg-background-200 items-center md:gap-1 gap-2"
-    (click)="onClick()"
+    (click)="onShareClick()"
+  >
+    <app-share-svg svgClass="fill-text md:w-4 md:h-4 h-6 w-6"></app-share-svg>
+    <span class="text-text md:text-base text-base font-semibold">Share</span>
+  </button>
+  <button
+    class="flex md:px-4 md:py-2 px-6 py-3 rounded-md bg-background-200 items-center md:gap-1 gap-2"
+    (click)="onSaveClick()"
   >
     <app-floppy-disk-svg
       svgClass="fill-text md:w-4 md:h-4 h-6 w-6"
     ></app-floppy-disk-svg>
     <span class="text-text md:text-base text-base font-semibold">Save</span>
   </button>
-  <app-theme-toggle class="ml-4"></app-theme-toggle>
+  <app-theme-toggle></app-theme-toggle>
 </nav>
