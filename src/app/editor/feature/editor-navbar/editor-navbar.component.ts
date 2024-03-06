@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { LogoLinkComponent } from '../../../shared/feature/logo-link/logo-link.component';
 import { ModalService } from '../../../shared/feature/modal-service/modal.service';
 import { ThemeToggleComponent } from '../../../shared/feature/theme-toggle/theme-toggle.component';
@@ -12,8 +12,6 @@ import { SaveModalComponent } from '../save-modal/save-modal.component';
   templateUrl: './editor-navbar.component.html',
 })
 export class EditorNavbarComponent {
-  @Input({ required: true }) iframeElement!: HTMLIFrameElement;
-
   constructor(private modalService: ModalService) {}
 
   onClick() {
