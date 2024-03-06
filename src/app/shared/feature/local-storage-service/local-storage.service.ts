@@ -30,18 +30,35 @@ export class LocalStorageService {
     const sparkIdList = JSON.parse(
       localStorage.getItem('personalSparkIds') ?? '[]'
     ) as string[];
-    const personalSparks = JSON.parse(
-      localStorage.getItem('personalSparks') ?? '[]'
-    ) as PersonalSpark[];
-    sparkIdList.push(id);
-    personalSparks.push(newSpark);
+    if (!sparkIdList.includes(id)) {
+      sparkIdList.push(id);
+    }
     localStorage.setItem('sparkIds', JSON.stringify(sparkIdList));
-    localStorage.setItem('personalSparks', JSON.stringify(personalSparks));
+    localStorage.setItem(`personalSparks.${id}`, JSON.stringify(newSpark));
   }
 
   getPersonalSparks() {
-    const sparks = localStorage.getItem('personalSparks');
-    if (!sparks) return [];
-    return JSON.parse(sparks);
+    const sparkIds = JSON.parse(localStorage.getItem('sparkIds') ?? '[]');
+    const sparks = [];
+    for (let sparkId of sparkIds) {
+      try {
+        const spark = localStorage.getItem(`personalSparks.${sparkId}`);
+        if (!spark) continue;
+        sparks.push(JSON.parse(spark));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return sparks;
+  }
+
+  getPersonalSpark(sparkId: string) {
+    const spark = localStorage.getItem(`personalSparks.${sparkId}`);
+    if (!spark) {
+      return null;
+    } else {
+      return JSON.parse(spark);
+    }
   }
 }

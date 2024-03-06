@@ -1,10 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  Storage,
-  getDownloadURL,
-  ref,
-  uploadString,
-} from '@angular/fire/storage';
+import { Storage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -55,15 +50,16 @@ export class SaveModalComponent implements OnInit {
       try {
         if (!dataUrl) return;
         const sparkId = uuidv4();
-        const storageRef = ref(this.fbStorage, `thumbnails/saved/${sparkId}`);
-        const snapshot = await uploadString(storageRef, dataUrl, 'data_url');
-        const url = await getDownloadURL(snapshot.ref);
+        const imageUrl = await this.editorScreenshotService.uploadThumbail(
+          dataUrl,
+          sparkId
+        );
 
         this.localStorageService.addSpark(
           this.editorService.inputCode,
           this.sparkName,
           sparkId,
-          url
+          imageUrl
         );
       } catch (error) {
         console.error(error);

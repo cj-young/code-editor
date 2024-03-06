@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LocalStorageService } from '../../../shared/feature/local-storage-service/local-storage.service';
 import { Language } from '../../../shared/types/language';
 
 @Injectable({
@@ -10,6 +11,7 @@ export class EditorService {
     css: '',
     javascript: '',
   };
+  sparkName?: string;
 
-  constructor() {}
+  constructor(private localStorageService: LocalStorageService) {}
 }

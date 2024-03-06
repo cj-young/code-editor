@@ -1,4 +1,10 @@
 import { ElementRef, Injectable } from '@angular/core';
+import {
+  Storage,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from '@angular/fire/storage';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
@@ -6,9 +12,9 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class EditorScreenshotService {
   iframeElement?: ElementRef;
-  constructor() {}
+  constructor(private fbStorage: Storage) {}
 
-  async getScreenShot() {
+  async getScreenShot(): Promise<string> {
     if (!this.iframeElement) {
       throw new Error('iframe element is not defined');
     }
@@ -35,5 +41,12 @@ export class EditorScreenshotService {
       };
       window.addEventListener('message', onMessage);
     });
+  }
+
+  async uploadThumbail(dataUrl: string, sparkId: string): Promise<string> {
+    const storageRef = ref(this.fbStorage, `thumbnails/saved/${sparkId}`);
+    const snapshot = await uploadString(storageRef, dataUrl, 'data_url');
+    const url = await getDownloadURL(snapshot.ref);
+    return url;
   }
 }

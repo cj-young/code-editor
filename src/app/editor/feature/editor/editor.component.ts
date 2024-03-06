@@ -3,10 +3,13 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LocalStorageService } from '../../../shared/feature/local-storage-service/local-storage.service';
 import { Language } from '../../../shared/types/language';
 import {
   ConsoleItem,
@@ -23,6 +26,8 @@ import {
 } from '../resizeable-container/resizeable-container.component';
 import { ResizeableItemComponent } from '../resizeable-item/resizeable-item.component';
 import iframeConfigCode from './iframe-config-code';
+
+type EditorType = 'saved' | 'unsaved';
 
 @Component({
   selector: 'app-editor',
@@ -43,7 +48,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     css: '',
     javascript: '',
   };
-  workingHtml = '';
   consoleItems: ConsoleItem[] = [];
 
   mainDividerPos = 0.6;
@@ -52,10 +56,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
   @ViewChild('desktopIframe') desktopIframe!: ElementRef;
   @ViewChild('mobileIframe') mobileIframe!: ElementRef;
 
+  @Input() type: EditorType = 'unsaved';
+
   constructor(
     private renderer: Renderer2,
     private editorScreenshotService: EditorScreenshotService,
-    private editorService: EditorService
+    private editorService: EditorService,
+    private route: ActivatedRoute,
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {}
 
   get fullCode() {
@@ -108,12 +117,29 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     try {
-      const currentActiveSpark = localStorage.getItem('editorActiveSpark');
-      if (!currentActiveSpark) return;
+      if (this.type === 'unsaved') {
+        const currentActiveSpark = localStorage.getItem('editorActiveSpark');
+        if (!currentActiveSpark) return;
 
-      const parsedCode = JSON.parse(currentActiveSpark);
-      this.workingInputCode = parsedCode;
-      this.editorService.inputCode = structuredClone(parsedCode);
+        const parsedCode = JSON.parse(currentActiveSpark);
+        this.workingInputCode = parsedCode;
+        this.editorService.inputCode = structuredClone(parsedCode);
+      } else if (this.type === 'saved') {
+        this.route.paramMap.subscribe((params) => {
+          const id = params.get('id');
+          if (!id) {
+            this.router.navigate(['/create']);
+            return;
+          }
+          const spark = this.localStorageService.getPersonalSpark(id);
+          if (!spark) {
+            this.router.navigate(['/create']);
+          }
+          this.workingInputCode = spark.code;
+          this.editorService.inputCode = structuredClone(spark.code);
+          this.editorService.sparkName = spark.name;
+        });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -125,12 +151,13 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
 
   onSave(language: Language, newCode: string) {
-    console.log('on save running');
     this.editorService.inputCode[language] = newCode;
-    localStorage.setItem(
-      'editorActiveSpark',
-      JSON.stringify(this.editorService.inputCode)
-    );
+    if (this.type === 'unsaved') {
+      localStorage.setItem(
+        'editorActiveSpark',
+        JSON.stringify(this.editorService.inputCode)
+      );
+    }
   }
 
   onClearConsole() {
