@@ -43,14 +43,14 @@
     </div>
     <label class="flex gap-2 mt-4 text-text cursor-pointer">
       <input
-        class="sr-only"
+        class="sr-only peer"
         type="checkbox"
         name="addToGallery"
         [(ngModel)]="addToGallery"
       />
       <div
         [class]="
-          'w-6 h-6 border-[1px] border-text-400 border-solid rounded-md flex items-center justify-center not-sr-only ' +
+          'w-6 h-6 border-[1px] border-text-400 border-solid peer-focus:outline-2 peer-focus: outline-text peer-focus:outline-offset-1 peer-focus:outline rounded-md flex items-center justify-center not-sr-only ' +
           (addToGallery ? 'bg-secondary' : 'bg-transparent')
         "
       >
