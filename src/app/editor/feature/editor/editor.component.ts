@@ -55,6 +55,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('desktopIframe') desktopIframe!: ElementRef;
   @ViewChild('mobileIframe') mobileIframe!: ElementRef;
+  @ViewChild('dummyIframe') dummyIframe!: ElementRef;
 
   @Input() type: EditorType = 'unsaved';
 
@@ -147,8 +148,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const desktopIframeElement = this.desktopIframe;
-    this.editorScreenshotService.iframeElement = desktopIframeElement;
+    const dummyIframe = this.dummyIframe;
+    this.editorScreenshotService.iframeElement = dummyIframe;
   }
 
   onSave(language: Language, newCode: string) {
