@@ -7,6 +7,11 @@ import { ThemeToggleComponent } from '../../../../shared/feature/theme-toggle/th
   standalone: true,
   imports: [LogoLinkComponent, ThemeToggleComponent],
   templateUrl: './viewer-navbar.component.html',
+  styles: `
+  :host {
+    @apply w-full overflow-x-auto
+  }
+`,
 })
 export class ViewerNavbarComponent {
   sparkName = '';
