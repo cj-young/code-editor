@@ -41,6 +41,8 @@ export class EditorPanelComponent implements OnInit {
   @Input() code = '';
   @Output() codeChange: EventEmitter<string> = new EventEmitter<string>();
 
+  @Input() isReadOnly = false;
+
   constructor(private themeService: ThemeService) {
     this.theme = themeService.getTheme();
   }

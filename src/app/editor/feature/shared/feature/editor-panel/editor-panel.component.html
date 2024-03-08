@@ -24,7 +24,8 @@
         extraKeys: {
           'Ctrl-/': 'toggleComment'
         },
-        styleActiveLine: true
+        styleActiveLine: true,
+        readOnly: isReadOnly
       }"
       (ngModelChange)="onChange()"
     ></ngx-codemirror>

@@ -26,6 +26,7 @@
                     (onSave)="onSave('html', $event)"
                     class="h-full max-h-full min-h-0"
                     [(code)]="workingInputCode.html"
+                    [isReadOnly]="type === 'public'"
                   ></app-editor-panel>
                   }
                 </app-resizeable-item>
@@ -43,6 +44,7 @@
                     language="css"
                     (onSave)="onSave('css', $event)"
                     [(code)]="workingInputCode.css"
+                    [isReadOnly]="type === 'public'"
                   ></app-editor-panel
                   >}
                 </app-resizeable-item>
@@ -61,6 +63,7 @@
               class="md:col-span-2"
               (onSave)="onSave('javascript', $event)"
               [(code)]="workingInputCode.javascript"
+              [isReadOnly]="type === 'public'"
             ></app-editor-panel
             >}
           </app-resizeable-item>
@@ -151,6 +154,7 @@
     (onSave)="onSave('html', $event)"
     class="h-full max-h-full min-h-0"
     [(code)]="workingInputCode.html"
+    [isReadOnly]="type === 'public'"
   ></app-editor-panel
   >} @if (isLoading) {
   <div class="w-full h-full bg-background-200 rounded-md"></div>
@@ -158,6 +162,7 @@
     language="css"
     (onSave)="onSave('css', $event)"
     [(code)]="workingInputCode.css"
+    [isReadOnly]="type === 'public'"
   ></app-editor-panel
   >} @if (isLoading) {
   <div class="w-full h-full bg-background-200 rounded-md"></div>
@@ -166,6 +171,7 @@
     class="md:col-span-2"
     (onSave)="onSave('javascript', $event)"
     [(code)]="workingInputCode.javascript"
+    [isReadOnly]="type === 'public'"
   ></app-editor-panel
   >} @if (isLoading) {
   <div class="w-full h-full bg-background-200 rounded-md"></div>
