@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LogoLinkComponent } from '../../../../shared/feature/logo-link/logo-link.component';
 import { ThemeToggleComponent } from '../../../../shared/feature/theme-toggle/theme-toggle.component';
+import { EditorService } from '../../shared/data-access/editor-service/editor.service';
 
 @Component({
   selector: 'app-viewer-navbar',
@@ -13,6 +14,14 @@ import { ThemeToggleComponent } from '../../../../shared/feature/theme-toggle/th
   }
 `,
 })
-export class ViewerNavbarComponent {
-  sparkName = '';
+export class ViewerNavbarComponent implements OnInit {
+  sparkName: string | null = null;
+
+  constructor(private editorService: EditorService) {}
+
+  ngOnInit(): void {
+    this.editorService.sparkName.subscribe((newName) => {
+      this.sparkName = newName;
+    });
+  }
 }
