@@ -9,6 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DbSparksService } from '../../../../../shared/data-access/db-sparks-service/db-sparks.service';
 import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
 import { Language } from '../../../../../shared/types/language';
 import {
@@ -26,7 +27,7 @@ import {
 import { ResizeableItemComponent } from '../resizeable-item/resizeable-item.component';
 import iframeConfigCode from './iframe-config-code';
 
-type EditorType = 'saved' | 'unsaved';
+type EditorType = 'saved' | 'unsaved' | 'public';
 
 @Component({
   selector: 'app-editor',
@@ -63,7 +64,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
     private editorService: EditorService,
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private dbSparkService: DbSparksService
   ) {}
 
   get fullCode() {
@@ -138,6 +140,24 @@ export class EditorComponent implements OnInit, AfterViewInit {
           this.editorService.inputCode.next(structuredClone(spark.code));
           this.editorService.sparkName.next(spark.name);
           this.editorService.sparkId.next(spark.id);
+        });
+      } else if (this.type === 'public') {
+        this.route.paramMap.subscribe(async (params) => {
+          const id = params.get('id');
+          if (!id) {
+            this.router.navigate(['/']);
+            return;
+          }
+          const spark = await this.dbSparkService.getPublicSpark(id);
+          if (!spark) {
+            this.router.navigate(['/']);
+            return;
+          }
+
+          this.workingInputCode = spark.code;
+          this.editorService.inputCode.next(structuredClone(spark.code));
+          this.editorService.sparkName.next(spark.name);
+          this.editorService.sparkId.next(spark.id ?? null);
         });
       }
     } catch (error) {

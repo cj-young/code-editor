@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
 import { Language } from '../../../../../shared/types/language';
 
 @Injectable({
@@ -14,6 +13,4 @@ export class EditorService {
   });
   sparkName = new BehaviorSubject<string | null>(null);
   sparkId = new BehaviorSubject<string | null>(null);
-
-  constructor(private localStorageService: LocalStorageService) {}
 }

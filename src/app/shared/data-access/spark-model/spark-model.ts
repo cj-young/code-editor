@@ -8,4 +8,5 @@ export type SparkModel = {
   imageUrl?: string;
   isInGallery: boolean;
   name: string;
+  id?: string;
 };
