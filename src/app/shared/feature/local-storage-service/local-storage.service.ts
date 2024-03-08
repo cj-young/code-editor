@@ -28,7 +28,7 @@ export class LocalStorageService {
     };
 
     const sparkIdList = JSON.parse(
-      localStorage.getItem('personalSparkIds') ?? '[]'
+      localStorage.getItem('sparkIds') ?? '[]'
     ) as string[];
     if (!sparkIdList.includes(id)) {
       sparkIdList.push(id);
