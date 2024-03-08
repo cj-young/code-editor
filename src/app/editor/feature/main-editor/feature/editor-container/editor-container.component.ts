@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { EditorComponent } from '../../../shared/feature/editor/editor.component';
 import { EditorNavbarComponent } from '../editor-navbar/editor-navbar.component';
-import { EditorComponent } from '../editor/editor.component';
 
 @Component({
   selector: 'app-editor-container',

@@ -3,11 +3,11 @@ import { Storage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { LocalStorageService } from '../../../shared/feature/local-storage-service/local-storage.service';
-import { ModalService } from '../../../shared/feature/modal-service/modal.service';
-import { XmarkSvgComponent } from '../../../shared/ui/xmark-svg/xmark-svg.component';
+import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
+import { ModalService } from '../../../../../shared/feature/modal-service/modal.service';
+import { XmarkSvgComponent } from '../../../../../shared/ui/xmark-svg/xmark-svg.component';
+import { EditorService } from '../../data-access/editor-service/editor.service';
 import { EditorScreenshotService } from '../editor-screenshot/editor-screenshot.service';
-import { EditorService } from '../editor-service/editor.service';
 
 @Component({
   selector: 'app-save-modal',

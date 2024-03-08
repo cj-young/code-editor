@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { DbSparksService } from '../../../shared/data-access/db-sparks-service/db-sparks.service';
-import { ModalService } from '../../../shared/feature/modal-service/modal.service';
-import { CheckSvgComponent } from '../../../shared/ui/check-svg/check-svg.component';
-import { XmarkSvgComponent } from '../../../shared/ui/xmark-svg/xmark-svg.component';
+import { DbSparksService } from '../../../../../shared/data-access/db-sparks-service/db-sparks.service';
+import { ModalService } from '../../../../../shared/feature/modal-service/modal.service';
+import { CheckSvgComponent } from '../../../../../shared/ui/check-svg/check-svg.component';
+import { XmarkSvgComponent } from '../../../../../shared/ui/xmark-svg/xmark-svg.component';
+import { EditorService } from '../../data-access/editor-service/editor.service';
 import { EditorScreenshotService } from '../editor-screenshot/editor-screenshot.service';
-import { EditorService } from '../editor-service/editor.service';
 
 @Component({
   selector: 'app-share-modal',

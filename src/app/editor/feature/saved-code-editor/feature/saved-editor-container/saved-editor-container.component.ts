@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EditorComponent } from '../editor/editor.component';
+import { EditorComponent } from '../../../shared/feature/editor/editor.component';
 import { SavedNavbarComponent } from '../saved-navbar/saved-navbar.component';
 
 @Component({

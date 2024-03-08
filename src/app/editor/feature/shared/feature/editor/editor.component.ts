@@ -9,17 +9,16 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from '../../../shared/feature/local-storage-service/local-storage.service';
-import { Language } from '../../../shared/types/language';
+import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
+import { Language } from '../../../../../shared/types/language';
 import {
   ConsoleItem,
   ConsoleOutputComponent,
-} from '../../ui/console-output/console-output.component';
-import { SanitizeHtmlPipe } from '../../utils/sanitize-html.pipe';
-import { EditorNavbarComponent } from '../editor-navbar/editor-navbar.component';
+} from '../../../../ui/console-output/console-output.component';
+import { SanitizeHtmlPipe } from '../../../../utils/sanitize-html.pipe';
+import { EditorService } from '../../data-access/editor-service/editor.service';
 import { EditorPanelComponent } from '../editor-panel/editor-panel.component';
 import { EditorScreenshotService } from '../editor-screenshot/editor-screenshot.service';
-import { EditorService } from '../editor-service/editor.service';
 import {
   Direction,
   ResizeableContainerComponent,
@@ -33,7 +32,6 @@ type EditorType = 'saved' | 'unsaved';
   selector: 'app-editor',
   standalone: true,
   imports: [
-    EditorNavbarComponent,
     EditorPanelComponent,
     SanitizeHtmlPipe,
     ConsoleOutputComponent,

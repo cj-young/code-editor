@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { LanguageFormatterPipe } from '../../../shared/feature/language-formatter-pipe/language-formatter.pipe';
-import { ThemeService } from '../../../shared/feature/theme-service/theme.service';
-import { Language } from '../../../shared/types/language';
-import { Theme } from '../../../shared/types/theme';
-import { LanguageToModePipePipe } from '../../utils/language-to-mode-pipe/language-to-mode-pipe.pipe';
+import { LanguageFormatterPipe } from '../../../../../shared/feature/language-formatter-pipe/language-formatter.pipe';
+import { ThemeService } from '../../../../../shared/feature/theme-service/theme.service';
+import { Language } from '../../../../../shared/types/language';
+import { Theme } from '../../../../../shared/types/theme';
+import { LanguageToModePipePipe } from '../../../../utils/language-to-mode-pipe/language-to-mode-pipe.pipe';
 
 const AUTO_SAVE_DELAY = 500;
 

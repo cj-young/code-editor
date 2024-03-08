@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { LocalStorageService } from '../../../shared/feature/local-storage-service/local-storage.service';
-import { LogoLinkComponent } from '../../../shared/feature/logo-link/logo-link.component';
-import { ThemeToggleComponent } from '../../../shared/feature/theme-toggle/theme-toggle.component';
-import { FloppyDiskSvgComponent } from '../../../shared/ui/floppy-disk-svg/floppy-disk-svg.component';
-import { EditorScreenshotService } from '../editor-screenshot/editor-screenshot.service';
-import { EditorService } from '../editor-service/editor.service';
+import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
+import { LogoLinkComponent } from '../../../../../shared/feature/logo-link/logo-link.component';
+import { ThemeToggleComponent } from '../../../../../shared/feature/theme-toggle/theme-toggle.component';
+import { FloppyDiskSvgComponent } from '../../../../../shared/ui/floppy-disk-svg/floppy-disk-svg.component';
+import { EditorService } from '../../../shared/data-access/editor-service/editor.service';
+import { EditorScreenshotService } from '../../../shared/feature/editor-screenshot/editor-screenshot.service';
 
 @Component({
   selector: 'app-saved-navbar',
