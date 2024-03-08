@@ -18,6 +18,6 @@ export class DbSparksService {
 
   async uploadSpark(spark: SparkModel) {
     const docRef = await addDoc(this.sparksCollection, spark);
-    console.log('docRef', docRef);
+    return docRef;
   }
 }

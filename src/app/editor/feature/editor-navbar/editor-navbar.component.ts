@@ -5,6 +5,7 @@ import { ThemeToggleComponent } from '../../../shared/feature/theme-toggle/theme
 import { FloppyDiskSvgComponent } from '../../../shared/ui/floppy-disk-svg/floppy-disk-svg.component';
 import { ShareSvgComponent } from '../../../shared/ui/share-svg/share-svg.component';
 import { SaveModalComponent } from '../save-modal/save-modal.component';
+import { ShareModalComponent } from '../share-modal/share-modal.component';
 
 @Component({
   selector: 'app-editor-navbar',
@@ -29,5 +30,7 @@ export class EditorNavbarComponent {
     this.modalService.openModal(SaveModalComponent);
   }
 
-  onShareClick() {}
+  onShareClick() {
+    this.modalService.openModal(ShareModalComponent);
+  }
 }
