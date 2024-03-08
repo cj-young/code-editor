@@ -23,13 +23,15 @@ export class DbSparksService {
 
   async uploadSpark(spark: SparkModel) {
     const docRef = await addDoc(this.sparksCollection, spark);
-    return docRef;
+    return docRef.id;
   }
 
   async getPublicSpark(sparkId: string) {
     const sparkDocRef = doc(this.sparksCollection, sparkId);
     const sparkSnap = await getDoc(sparkDocRef);
 
-    return sparkSnap.exists() ? sparkSnap.data() : null;
+    return sparkSnap.exists()
+      ? { ...sparkSnap.data(), id: sparkSnap.id }
+      : null;
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { DbSparksService } from '../../../../../shared/data-access/db-sparks-service/db-sparks.service';
@@ -30,7 +31,8 @@ export class ShareModalComponent implements OnInit {
     private modalService: ModalService,
     private dbSparksService: DbSparksService,
     private editorService: EditorService,
-    private editorScreenshotService: EditorScreenshotService
+    private editorScreenshotService: EditorScreenshotService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -54,7 +56,7 @@ export class ShareModalComponent implements OnInit {
     this.imageUrl.subscribe(async (newImageUrl) => {
       if (!newImageUrl) return;
       try {
-        const res = await this.dbSparksService.uploadSpark({
+        const docId = await this.dbSparksService.uploadSpark({
           code: {
             html: this.editorService.inputCode.value.html,
             css: this.editorService.inputCode.value.css,
@@ -65,6 +67,8 @@ export class ShareModalComponent implements OnInit {
           imageUrl: newImageUrl,
           creatorName: this.creatorName,
         });
+        await this.router.navigate(['public-spark', docId]);
+        this.onClose();
       } catch (error) {
         console.error(error);
       }
