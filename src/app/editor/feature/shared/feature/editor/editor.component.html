@@ -18,12 +18,16 @@
                   [initialSize]="0.5"
                   [minSize]="0.1"
                 >
+                  @if (isLoading) {
+                  <div class="w-full h-full bg-background-200 rounded-md"></div>
+                  } @else {
                   <app-editor-panel
                     language="html"
                     (onSave)="onSave('html', $event)"
                     class="h-full max-h-full min-h-0"
                     [(code)]="workingInputCode.html"
                   ></app-editor-panel>
+                  }
                 </app-resizeable-item>
                 <app-resizeable-item type="handle">
                   <div class="cursor-col-resize w-4 min-w-4"></div>
@@ -32,12 +36,15 @@
                   type="item"
                   [initialSize]="0.5"
                   [minSize]="0.1"
-                >
+                  >@if (isLoading) {
+                  <div class="w-full h-full bg-background-200 rounded-md"></div>
+                  } @else {
                   <app-editor-panel
                     language="css"
                     (onSave)="onSave('css', $event)"
                     [(code)]="workingInputCode.css"
-                  ></app-editor-panel>
+                  ></app-editor-panel
+                  >}
                 </app-resizeable-item>
               </app-resizeable-container>
             </div>
@@ -45,13 +52,17 @@
           <app-resizeable-item type="handle">
             <div class="w-full h-4 cursor-row-resize"></div>
           </app-resizeable-item>
-          <app-resizeable-item type="item" [initialSize]="0.5" [minSize]="0.1">
+          <app-resizeable-item type="item" [initialSize]="0.5" [minSize]="0.1"
+            >@if (isLoading) {
+            <div class="w-full h-full bg-background-200 rounded-md"></div>
+            } @else {
             <app-editor-panel
               language="javascript"
               class="md:col-span-2"
               (onSave)="onSave('javascript', $event)"
               [(code)]="workingInputCode.javascript"
-            ></app-editor-panel>
+            ></app-editor-panel
+            >}
           </app-resizeable-item>
         </app-resizeable-container>
       </div>
@@ -72,7 +83,9 @@
           (isDragging)="onDragChange($event)"
         >
           <app-resizeable-item type="item" [initialSize]="0.7" [minSize]="0.1">
-            <iframe
+            @if (isLoading) {
+            <div class="w-full h-full bg-background-200 rounded-md"></div>
+            } @else {<iframe
               #desktopIframe
               title="output"
               name="output-desktop"
@@ -85,7 +98,8 @@
               pointerEvents: resizingMode ? 'none' : 'auto',
             }"
               allow="display-capture"
-            ></iframe>
+            ></iframe
+            >}
           </app-resizeable-item>
           <app-resizeable-item type="handle">
             <div class="w-full h-4 cursor-row-resize"></div>
@@ -98,10 +112,13 @@
         }"
               (mousemove)="$event.stopPropagation()"
             ></div>
-            <app-console-output
+            @if (isLoading) {
+            <div class="w-full h-full bg-background-200 rounded-md"></div>
+            } @else {<app-console-output
               [consoleItems]="consoleItems"
               (clearItems)="onClearConsole()"
-            ></app-console-output>
+            ></app-console-output
+            >}
           </app-resizeable-item>
         </app-resizeable-container>
       </div>
@@ -111,6 +128,9 @@
 <div
   class="w-full p-4 md:p-0 pointer-events-auto md:pointer-events-none md:overflow-hidden md:absolute md:invisible md:w-0 md:h-0 md:opacity-0 grid grid-cols-1 grid-rows-[20rem_20rem_20rem_20rem_20rem] gap-4"
 >
+  @if (isLoading) {
+  <div class="w-full h-full bg-background-200 rounded-md"></div>
+  } @else {
   <iframe
     #mobileIframe
     title="output-mobile"
@@ -123,31 +143,42 @@
     [style]="{
               pointerEvents: resizingMode ? 'none' : 'auto',
             }"
-  ></iframe>
-  <app-editor-panel
+  ></iframe
+  >} @if (isLoading) {
+  <div class="w-full h-full bg-background-200 rounded-md"></div>
+  } @else {<app-editor-panel
     language="html"
     (onSave)="onSave('html', $event)"
     class="h-full max-h-full min-h-0"
     [(code)]="workingInputCode.html"
-  ></app-editor-panel>
-  <app-editor-panel
+  ></app-editor-panel
+  >} @if (isLoading) {
+  <div class="w-full h-full bg-background-200 rounded-md"></div>
+  } @else {<app-editor-panel
     language="css"
     (onSave)="onSave('css', $event)"
     [(code)]="workingInputCode.css"
-  ></app-editor-panel>
-  <app-editor-panel
+  ></app-editor-panel
+  >} @if (isLoading) {
+  <div class="w-full h-full bg-background-200 rounded-md"></div>
+  } @else {<app-editor-panel
     language="javascript"
     class="md:col-span-2"
     (onSave)="onSave('javascript', $event)"
     [(code)]="workingInputCode.javascript"
-  ></app-editor-panel>
-  <app-console-output
+  ></app-editor-panel
+  >} @if (isLoading) {
+  <div class="w-full h-full bg-background-200 rounded-md"></div>
+  } @else {<app-console-output
     [consoleItems]="consoleItems"
     (clearItems)="onClearConsole()"
-  ></app-console-output>
+  ></app-console-output
+  >}
 </div>
 <div class="absolute w-0 h-0 overflow-hidden invisible">
-  <iframe
+  @if (isLoading) {
+  <div class="w-full h-full bg-background-200 rounded-md"></div>
+  } @else {<iframe
     #dummyIframe
     title="dummy"
     name="iframe-dummy"
@@ -156,5 +187,6 @@
     height="768px"
     class="border-0 bg-white absolute invisible w-[1366px] h-[768px] -z-50 pointer-events-none"
     [srcdoc]="fullCode | sanitizeHtml"
-  ></iframe>
+  ></iframe
+  >}
 </div>

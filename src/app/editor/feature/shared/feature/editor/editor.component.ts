@@ -51,6 +51,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   mainDividerPos = 0.6;
   resizingMode: null | Direction = null;
+  isLoading = true;
 
   @ViewChild('desktopIframe') desktopIframe!: ElementRef;
   @ViewChild('mobileIframe') mobileIframe!: ElementRef;
@@ -125,6 +126,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
         const parsedCode = JSON.parse(currentActiveSpark);
         this.workingInputCode = parsedCode;
         this.editorService.inputCode.next(structuredClone(parsedCode));
+        this.isLoading = false;
       } else if (this.type === 'saved') {
         this.route.paramMap.subscribe((params) => {
           const id = params.get('id');
@@ -140,8 +142,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
           this.editorService.inputCode.next(structuredClone(spark.code));
           this.editorService.sparkName.next(spark.name);
           this.editorService.sparkId.next(spark.id);
+          this.isLoading = false;
         });
       } else if (this.type === 'public') {
+        this.isLoading = true;
         this.route.paramMap.subscribe(async (params) => {
           const id = params.get('id');
           if (!id) {
@@ -158,6 +162,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
           this.editorService.inputCode.next(structuredClone(spark.code));
           this.editorService.sparkName.next(spark.name);
           this.editorService.sparkId.next(spark.id ?? null);
+          this.isLoading = false;
         });
       }
     } catch (error) {
