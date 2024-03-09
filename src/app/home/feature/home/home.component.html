@@ -20,5 +20,15 @@
         }
       </ul>
     </section>
+    <section>
+      <div class="flex gap-4 items-center justify-between mt-16">
+        <h2 class="text-text md:text-4xl text-3xl font-bold">Gallery</h2>
+        <app-dropdown-select
+          [options]="sortDropdownOptions"
+          (optionChange)="onSortChange($event)"
+          label="Sort by"
+        ></app-dropdown-select>
+      </div>
+    </section>
   </main>
 </div>
