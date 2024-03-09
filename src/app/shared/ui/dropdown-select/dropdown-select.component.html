@@ -1,0 +1,77 @@
+<div class="flex px-3 py-2 rounded-md gap-2 items-center">
+  <label [id]="instanceIdPrefix + '-label'" class="text-text text-sm">{{
+    label
+  }}</label>
+  <div class="cursor-pointer relative" #container>
+    <div
+      [id]="instanceIdPrefix + '-combobox'"
+      [attr.aria-controls]="instanceIdPrefix + '-listbox'"
+      [attr.aria-expanded]="isExpanded"
+      aria-haspopup="listbox"
+      [attr.aria-labelledby]="instanceIdPrefix + '-label'"
+      role="combobox"
+      tabindex="0"
+      (blur)="onDropdownBlur()"
+      (keydown)="onKeyDown($event)"
+      (click)="onClick()"
+      [attr.aria-activedescendant]="getOptionHtmlId(activeIndex)"
+      class="text-text font-bold text-base px-3 py-2 bg-background-200 rounded-md flex justify-between items-center gap-4"
+    >
+      {{ options[selectedIndex.value].displayName }}
+      <app-caret-down-svg
+        svgClass="fill-text w-3"
+        [style]="{
+          rotate: isExpanded ? '180deg' : '0deg'
+        }"
+        class="transition-[rotate]"
+      ></app-caret-down-svg>
+    </div>
+    <div
+      class="visible h-0"
+      tabindex="-1"
+      [style]="{
+        visibility: isExpanded ? 'visible' : 'hidden',
+      }"
+    >
+      <div
+        [id]="instanceIdPrefix + '-listbox'"
+        role="listbox"
+        [attr.aria-labelledby]="instanceIdPrefix + '-label'"
+        class="bg-background-200 rounded-md overflow-hidden translate-y-1"
+        [style]="{
+          height: isExpanded ? undefined : '0'
+        }"
+      >
+        @for (option of options; track option.id; let idx = $index) {
+        <div
+          [id]="getOptionHtmlId(idx)"
+          role="option"
+          [attr.aria-selected]="selectedIndex.value === idx"
+          [class]="
+            'first:rounded-t-md last:rounded-b-md px-3 py-2 text-text font-bold hover:bg-background-300 pr-[5rem] ' +
+            (activeIndex === idx
+              ? 'outline outline-[1px] outline-text -outline-offset-1 '
+              : '')
+          "
+          [style]="{
+            fontWeight: selectedIndex.value === idx ? '800' : '400'
+          }"
+          (click)="onOptionClick($event, idx)"
+          (mousedown)="onOptionMouseDown($event)"
+        >
+          <div class="relative">
+            <span class="absolute left-0 top-1/2 -translate-y-1/2">{{
+              option.displayName
+            }}</span>
+            <span
+              class="text-text font-bold opacity-0 pointer-events-none select-none"
+              aria-hidden="true"
+              >{{ option.displayName }}</span
+            >
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
