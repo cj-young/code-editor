@@ -71,6 +71,8 @@ export class HomeComponent implements OnInit {
     if (this.gallerySort !== newSort) {
       this.gallerySort = newSort;
       this.publicSparks = [];
+      this.isAllSparksLoaded = false;
+      this.lastSparkSnap = undefined;
       this.getNextPublicSparks();
     }
   }
