@@ -16,7 +16,10 @@ export class EditorContainerComponent implements OnInit {
   ngOnInit(): void {
     try {
       const currentActiveSpark = localStorage.getItem('editorActiveSpark');
-      if (!currentActiveSpark) return;
+      if (!currentActiveSpark) {
+        this.isLoading = false;
+        return;
+      }
 
       const parsedCode = JSON.parse(currentActiveSpark);
       this.editorService.inputCode.next(structuredClone(parsedCode));
