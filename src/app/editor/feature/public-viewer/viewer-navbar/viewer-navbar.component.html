@@ -2,6 +2,15 @@
   class="min-w-[30rem] w-full py-4 px-6 border-b-[1px] border-text/15 flex items-center gap-4"
 >
   <app-logo-link></app-logo-link>
-  <h2 class="ml-auto text-text font-bold text-lg truncate">{{ sparkName }}</h2>
-  <app-theme-toggle class="ml-auto"></app-theme-toggle>
+  <h2 class="m-auto text-text font-bold text-lg truncate">{{ sparkName }}</h2>
+  <button
+    class="flex md:px-4 md:py-2 px-6 py-3 rounded-md bg-background-200 items-center md:gap-1 gap-2"
+    (click)="onFork()"
+  >
+    <app-code-fork-svg
+      svgClass="fill-text md:w-4 md:h-4 h-6 w-6"
+    ></app-code-fork-svg>
+    <span class="text-text md:text-base text-base font-semibold">Fork</span>
+  </button>
+  <app-theme-toggle></app-theme-toggle>
 </nav>

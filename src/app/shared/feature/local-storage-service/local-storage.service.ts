@@ -61,4 +61,8 @@ export class LocalStorageService {
       return JSON.parse(spark);
     }
   }
+
+  updateUnsavedEditor(code: Record<Language, string>) {
+    localStorage.setItem('editorActiveSpark', JSON.stringify(code));
+  }
 }
