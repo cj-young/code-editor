@@ -233,8 +233,23 @@ import {toJpeg} from 'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/+esm'
     try {
       const parsed = JSON.parse(e.data)
       if (parsed.type === "sendScreenshot") {
-        const bodyBackground = getComputedStyle(document.body).backgroundColor;
-        toJpeg(document.body, { bgcolor: bodyBackground ?? "#ffffff" }).then(function(dataUrl) {
+        const htmlBackground = getComputedStyle(document.documentElement).backgroundColor;
+        // const htmlBackground = null;
+        let rgbaBackground;
+        if (htmlBackground.startsWith("rgba")) {
+          rgbaBackground = htmlBackground;
+        } else if (htmlBackground.startsWith("rgb")) {
+          rgbaBackground = rgbToRgba(htmlBackground);
+        }
+
+        let mixedBackground = htmlBackground;
+        if (rgbaBackground) {
+          mixedBackground = addRgbaToWhite(rgbaBackground);
+        }
+
+        console.log(mixedBackground);
+
+        toJpeg(document.documentElement, { backgroundColor: mixedBackground ?? "#ffffff", width: 1366, height: 768}).then(function(dataUrl) {
           parent.postMessage({type: "screenshotResult", dataUrl, id: parsed.id}, "*");
         })
       }
@@ -242,4 +257,20 @@ import {toJpeg} from 'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/+esm'
       oldError(error);
     }
   })
+
+  function rgbToRgba(rgb) {
+    if (rgb.startsWith("rgba")) return rgb;
+    return rgb.slice(0, -1) + "1)";
+  }
+
+  function addRgbaToWhite(rgba) {
+    const color = rgba.slice(5, -1).replace(" ", "").split(",").map(val => +val);
+    const alpha = color[3];
+
+    const red = ((1 - alpha) * 255) + (alpha * color[0]);
+    const green = ((1 - alpha) * 255) + (alpha * color[1]);
+    const blue = ((1 - alpha) * 255) + (alpha * color[2]);
+
+    return \`rgb(\${red}, \${green}, \${blue})\`;
+  }
 }`;
