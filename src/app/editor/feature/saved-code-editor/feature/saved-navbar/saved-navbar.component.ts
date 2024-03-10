@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
+import { DeleteSparkModalComponent } from '../../../../../shared/feature/delete-spark-modal/delete-spark-modal.component';
 import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
 import { LogoLinkComponent } from '../../../../../shared/feature/logo-link/logo-link.component';
 import { ModalService } from '../../../../../shared/feature/modal-service/modal.service';
 import { ThemeToggleComponent } from '../../../../../shared/feature/theme-toggle/theme-toggle.component';
 import { FloppyDiskSvgComponent } from '../../../../../shared/ui/floppy-disk-svg/floppy-disk-svg.component';
 import { ShareSvgComponent } from '../../../../../shared/ui/share-svg/share-svg.component';
+import { TrashCanSvgComponent } from '../../../../../shared/ui/trash-can-svg/trash-can-svg.component';
 import { EditorService } from '../../../shared/data-access/editor-service/editor.service';
 import { EditorScreenshotService } from '../../../shared/feature/editor-screenshot/editor-screenshot.service';
 import { ShareModalComponent } from '../../../shared/feature/share-modal/share-modal.component';
@@ -18,6 +20,7 @@ import { ShareModalComponent } from '../../../shared/feature/share-modal/share-m
     FloppyDiskSvgComponent,
     ThemeToggleComponent,
     ShareSvgComponent,
+    TrashCanSvgComponent,
   ],
   templateUrl: './saved-navbar.component.html',
   styles: `
@@ -64,5 +67,9 @@ export class SavedNavbarComponent implements OnInit {
 
   onShareClick() {
     this.modalService.openModal(ShareModalComponent);
+  }
+
+  onDeleteClick() {
+    this.modalService.openModal(DeleteSparkModalComponent);
   }
 }

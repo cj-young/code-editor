@@ -65,4 +65,17 @@ export class LocalStorageService {
   updateUnsavedEditor(code: Record<Language, string>) {
     localStorage.setItem('editorActiveSpark', JSON.stringify(code));
   }
+
+  removeSpark(sparkId: string) {
+    try {
+      const sparkIdList = JSON.parse(
+        localStorage.getItem('sparkIds') ?? '[]'
+      ) as string[];
+      const filteredIds = sparkIdList.filter((id) => id !== sparkId);
+      localStorage.removeItem(`personalSparks.${sparkId}`);
+      localStorage.setItem(`sparkIds`, JSON.stringify(filteredIds));
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
