@@ -39,6 +39,9 @@ export class ViewerContainerComponent implements OnInit {
         this.editorService.sparkName.next(spark.name);
         this.editorService.sparkId.next(spark.id ?? id ?? null);
         this.isLoading = false;
+        if (spark.id) {
+          this.dbSparkService.incrementSparkView(spark.id);
+        }
       });
     } catch (error) {
       console.error(error);

@@ -10,10 +10,12 @@ import {
   doc,
   getDoc,
   getDocs,
+  increment,
   limit,
   orderBy,
   query,
   startAfter,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { SparkModel } from '../spark-model/spark-model';
@@ -77,5 +79,16 @@ export class DbSparksService {
       res.push(snap);
     });
     return res;
+  }
+
+  async incrementSparkView(sparkId: string) {
+    try {
+      const sparkDocRef = doc(this.sparksCollection, sparkId);
+      await updateDoc(sparkDocRef, {
+        views: increment(1),
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
