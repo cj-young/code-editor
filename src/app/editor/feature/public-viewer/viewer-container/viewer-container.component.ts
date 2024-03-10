@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DbSparksService } from '../../../../shared/data-access/db-sparks-service/db-sparks.service';
+import { ModalService } from '../../../../shared/feature/modal-service/modal.service';
 import { EditorService } from '../../shared/data-access/editor-service/editor.service';
 import { EditorComponent } from '../../shared/feature/editor/editor.component';
+import { CopyLinkModalComponent } from '../copy-link-modal/copy-link-modal.component';
 import { ViewerNavbarComponent } from '../viewer-navbar/viewer-navbar.component';
 
 @Component({
@@ -18,7 +20,8 @@ export class ViewerContainerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private editorService: EditorService,
-    private dbSparkService: DbSparksService
+    private dbSparkService: DbSparksService,
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +45,11 @@ export class ViewerContainerComponent implements OnInit {
         if (spark.id) {
           this.dbSparkService.incrementSparkView(spark.id);
         }
+      });
+      this.route.queryParamMap.subscribe((params) => {
+        const showModal = params.get('showModal');
+        if (!showModal) return;
+        this.modalService.openModal(CopyLinkModalComponent);
       });
     } catch (error) {
       console.error(error);

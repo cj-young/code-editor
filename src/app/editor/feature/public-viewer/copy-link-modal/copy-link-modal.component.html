@@ -1,0 +1,31 @@
+<div
+  class="w-full bg-background-100 rounded-md p-4 shadow-[0_0_20px_4px] shadow-primary/10"
+>
+  <div class="flex justify-between items-center w-full gap-4">
+    <h2 class="text-text font-bold text-2xl">Copy Link</h2>
+    <button
+      class="p-3 rounded-md bg-background-200 flex items-center justify-center"
+      (click)="onClose()"
+    >
+      <app-xmark-svg class="fill-text md:w-4 md:h-4 h-6 w-6"></app-xmark-svg>
+    </button>
+  </div>
+  <p class="text-text mt-8">Copy this link to share your Spark with others!</p>
+  <div class="mt-2 flex gap-4 w-full flex-col md:flex-row justify-between">
+    <input
+      class="bg-transparent text-text-500 border-[1px] w-full border-text-400 min-w-0 rounded-md py-2 px-3 block font-normal -full placeholder:text-text-400 placeholder:opacity-100"
+      readonly
+      [value]="sparkLink"
+    />
+    <button
+      class="flex md:px-4 md:py-2 px-6 py-3 w-full md:w-auto rounded-md bg-background-200 items-center justify-center md:gap-1 gap-2"
+      (click)="copyLink()"
+    >
+      <app-copy-svg svgClass="fill-text md:w-4 md:h-4 h-6 w-6"></app-copy-svg>
+      <span class="text-text md:text-base text-base font-semibold">Copy</span>
+    </button>
+  </div>
+  @if (message) {
+  <p class="mt-2 text-text">{{ message }}</p>
+  }
+</div>

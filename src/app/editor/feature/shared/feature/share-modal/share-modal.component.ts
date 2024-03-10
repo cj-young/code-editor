@@ -74,7 +74,9 @@ export class ShareModalComponent implements OnInit {
           ),
           views: 0,
         });
-        await this.router.navigate(['public-spark', docId]);
+        await this.router.navigate(['public-spark', docId], {
+          queryParams: { showModal: 'true' },
+        });
         this.onClose();
       } catch (error) {
         this.isLoading = false;
