@@ -19,7 +19,7 @@ import { SparkModel } from '../spark-model/spark-model';
 
 export type PublicSpark = SparkModel;
 
-export const SPARK_QUERY_LIMIT = 2;
+export const SPARK_QUERY_LIMIT = 25;
 
 @Injectable({
   providedIn: 'root',
