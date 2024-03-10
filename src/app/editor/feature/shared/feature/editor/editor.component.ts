@@ -8,9 +8,6 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DbSparksService } from '../../../../../shared/data-access/db-sparks-service/db-sparks.service';
-import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
 import { Language } from '../../../../../shared/types/language';
 import {
   ConsoleItem,
@@ -51,22 +48,18 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   mainDividerPos = 0.6;
   resizingMode: null | Direction = null;
-  isLoading = true;
 
   @ViewChild('desktopIframe') desktopIframe!: ElementRef;
   @ViewChild('mobileIframe') mobileIframe!: ElementRef;
   @ViewChild('dummyIframe') dummyIframe!: ElementRef;
 
+  @Input() isLoading = true;
   @Input() type: EditorType = 'unsaved';
 
   constructor(
     private renderer: Renderer2,
     private editorScreenshotService: EditorScreenshotService,
-    private editorService: EditorService,
-    private route: ActivatedRoute,
-    private localStorageService: LocalStorageService,
-    private router: Router,
-    private dbSparkService: DbSparksService
+    private editorService: EditorService
   ) {}
 
   get fullCode() {
@@ -118,56 +111,9 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    try {
-      if (this.type === 'unsaved') {
-        const currentActiveSpark = localStorage.getItem('editorActiveSpark');
-        if (!currentActiveSpark) return;
-
-        const parsedCode = JSON.parse(currentActiveSpark);
-        this.workingInputCode = parsedCode;
-        this.editorService.inputCode.next(structuredClone(parsedCode));
-        this.isLoading = false;
-      } else if (this.type === 'saved') {
-        this.route.paramMap.subscribe((params) => {
-          const id = params.get('id');
-          if (!id) {
-            this.router.navigate(['/create']);
-            return;
-          }
-          const spark = this.localStorageService.getPersonalSpark(id);
-          if (!spark) {
-            this.router.navigate(['/create']);
-          }
-          this.workingInputCode = spark.code;
-          this.editorService.inputCode.next(structuredClone(spark.code));
-          this.editorService.sparkName.next(spark.name);
-          this.editorService.sparkId.next(spark.id);
-          this.isLoading = false;
-        });
-      } else if (this.type === 'public') {
-        this.isLoading = true;
-        this.route.paramMap.subscribe(async (params) => {
-          const id = params.get('id');
-          if (!id) {
-            this.router.navigate(['/']);
-            return;
-          }
-          const spark = await this.dbSparkService.getPublicSpark(id);
-          if (!spark) {
-            this.router.navigate(['/']);
-            return;
-          }
-
-          this.workingInputCode = spark.code;
-          this.editorService.inputCode.next(structuredClone(spark.code));
-          this.editorService.sparkName.next(spark.name);
-          this.editorService.sparkId.next(spark.id ?? id ?? null);
-          this.isLoading = false;
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    this.editorService.inputCode.subscribe((newCode) => {
+      this.workingInputCode = structuredClone(newCode);
+    });
   }
 
   ngAfterViewInit(): void {
