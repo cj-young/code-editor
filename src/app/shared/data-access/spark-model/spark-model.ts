@@ -1,3 +1,5 @@
+import { Timestamp } from '@angular/fire/firestore';
+
 export type SparkModel = {
   code: {
     css: string;
@@ -9,4 +11,6 @@ export type SparkModel = {
   isInGallery: boolean;
   name: string;
   id?: string;
+  createdAt: Timestamp;
+  views?: number;
 };

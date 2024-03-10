@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -66,6 +67,11 @@ export class ShareModalComponent implements OnInit {
           isInGallery: this.addToGallery,
           imageUrl: newImageUrl,
           creatorName: this.creatorName,
+          createdAt: new Timestamp(
+            Math.floor(Date.now() / 1000),
+            (Date.now() % 1000) * 1_000_000
+          ),
+          views: 0,
         });
         await this.router.navigate(['public-spark', docId]);
         this.onClose();
