@@ -30,9 +30,26 @@
         ></app-dropdown-select>
       </div>
       <ul
-        class="grid gap-3 mt-4 grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))]"
+        class="grid gap-3 mt-4 grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] relative"
       >
-        @for (spark of publicSparks; track spark.id) {
+        @for (spark of publicSparks; track spark.id; let isLast = $last) { @if
+        (isLast) {
+        <app-spark-preview
+          [name]="spark.name"
+          [imageUrl]="spark.imageUrl ?? ''"
+          [id]="spark.id!"
+          type="public"
+          role="listitem"
+          [creatorName]="spark.creatorName"
+          [createdAt]="getDateFromTimestamp(spark.createdAt)"
+          [views]="spark.views"
+          appIntersectionObserver
+          (intersectionChange)="onIntersectionChange($event)"
+          [observerOptions]="{
+            rootMargin: '40rem'
+          }"
+        ></app-spark-preview>
+        } @else {
         <app-spark-preview
           [name]="spark.name"
           [imageUrl]="spark.imageUrl ?? ''"
@@ -43,7 +60,13 @@
           [createdAt]="getDateFromTimestamp(spark.createdAt)"
           [views]="spark.views"
         ></app-spark-preview>
-        }
+        } } @if (!isAllSparksLoaded) { @for (num of skeletonSparksArray; track
+        num) {
+        <div class="w-full aspect-[4/3] rounded-md bg-background-100"></div>
+        }}
+        <!-- <div
+          class="absolute bottom-0 h-[50rem] w-full invisible"
+        ></div> -->
       </ul>
     </section>
   </main>
