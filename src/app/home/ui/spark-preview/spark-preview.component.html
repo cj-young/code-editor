@@ -1,6 +1,6 @@
 <a
-  class="w-full group aspect-[16/10] bg-background-300 rounded-md flex items-center justify-center flex-col overflow-hidden"
-  [routerLink]="'/saved/' + id"
+  class="w-full group aspect-[4/3] bg-background-300 rounded-md flex items-center justify-center flex-col overflow-hidden"
+  [routerLink]="(type === 'personal' ? '/saved/' : '/public-spark/') + id"
 >
   <div class="flex-grow bg-background-300 w-full overflow-hidden p-2 pb-0">
     <div class="overflow-hidden w-full h-full rounded-sm rounded-b-none">
@@ -11,7 +11,30 @@
       />
     </div>
   </div>
-  <div class="px-4 py-2 text-text font-bold text-lg w-full bg-background-200">
-    {{ name }}
+  <div class="flex gap-2 w-full bg-background-200 px-4 py-2 justify-between">
+    @if (creatorName) {
+    <div>
+      <div class="text-text font-bold text-base">
+        {{ name }}
+      </div>
+      <div class="text-text-800 text-sm">
+        {{ creatorName }}
+      </div>
+    </div>
+    } @else {
+    <div class="text-text font-bold text-lg">
+      {{ name }}
+    </div>
+    } @if ((createdAt !== undefined) && (views !== undefined)) {
+    <div class="flex gap-1 flex-col items-end">
+      <div class="text-text-800 text-sm">
+        {{ createdAt | date : "longDate" }}
+      </div>
+      <div class="flex gap-2 text-text-800 items-center text-sm">
+        <app-eye-svg svgClass="w-4 h-4 fill-text-800"></app-eye-svg>
+        {{ views }}
+      </div>
+    </div>
+    }
   </div>
 </a>

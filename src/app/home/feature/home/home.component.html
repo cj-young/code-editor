@@ -29,6 +29,22 @@
           label="Sort by"
         ></app-dropdown-select>
       </div>
+      <ul
+        class="grid gap-3 mt-4 grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))]"
+      >
+        @for (spark of publicSparks; track spark.id) {
+        <app-spark-preview
+          [name]="spark.name"
+          [imageUrl]="spark.imageUrl ?? ''"
+          [id]="spark.id!"
+          type="public"
+          role="listitem"
+          [creatorName]="spark.creatorName"
+          [createdAt]="getDateFromTimestamp(spark.createdAt)"
+          [views]="spark.views"
+        ></app-spark-preview>
+        }
+      </ul>
     </section>
   </main>
 </div>

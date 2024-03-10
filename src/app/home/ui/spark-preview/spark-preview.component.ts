@@ -1,12 +1,14 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { EyeSvgComponent } from '../../../shared/ui/eye-svg/eye-svg.component';
 
-export type SparkType = 'personal';
+export type SparkType = 'personal' | 'public';
 
 @Component({
   selector: 'app-spark-preview',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, DatePipe, EyeSvgComponent],
   templateUrl: './spark-preview.component.html',
 })
 export class SparkPreviewComponent {
@@ -14,4 +16,7 @@ export class SparkPreviewComponent {
   @Input({ required: true }) imageUrl: string = '';
   @Input({ required: true }) id: string = '';
   @Input({ required: true }) type: SparkType = 'personal';
+  @Input() creatorName?: string;
+  @Input() createdAt?: Date;
+  @Input() views?: number;
 }

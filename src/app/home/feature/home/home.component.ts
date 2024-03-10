@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
+import {
+  DbSparksService,
+  PublicSpark,
+} from '../../../shared/data-access/db-sparks-service/db-sparks.service';
 import {
   LocalStorageService,
   PersonalSpark,
@@ -26,6 +31,7 @@ type GallerySort = 'popular' | 'newest' | 'oldest';
 })
 export class HomeComponent implements OnInit {
   personalSparks: PersonalSpark[] = [];
+  publicSparks: PublicSpark[] = [];
   gallerySort: GallerySort = 'popular';
   sortDropdownOptions: DropdownOption<string, GallerySort>[] = [
     { displayName: 'Popular', id: 'popular' },
@@ -33,13 +39,53 @@ export class HomeComponent implements OnInit {
     { displayName: 'Oldest', id: 'oldest' },
   ];
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private dbSparksService: DbSparksService
+  ) {}
 
   ngOnInit(): void {
     this.personalSparks = this.localStorageService.getPersonalSparks();
+    this.getNextPublicSparks();
   }
 
   onSortChange(newSort: GallerySort) {
-    this.gallerySort = newSort;
+    if (this.gallerySort !== newSort) {
+      this.gallerySort = newSort;
+      this.publicSparks = [];
+      this.getNextPublicSparks();
+    }
+  }
+
+  async getNextPublicSparks() {
+    let sortField;
+    let sortOrder;
+    if (this.gallerySort === 'newest') {
+      sortField = 'createdAt' as const;
+      sortOrder = 'desc' as const;
+    } else if (this.gallerySort === 'oldest') {
+      sortField = 'createdAt' as const;
+      sortOrder = 'asc' as const;
+    } else if (this.gallerySort === 'popular') {
+      sortField = 'views' as const;
+      sortOrder = 'desc' as const;
+    } else {
+      return;
+    }
+
+    const newSparks = await this.dbSparksService.getPublicSparks(
+      sortField,
+      sortOrder,
+      this.publicSparks.length > 0
+        ? this.publicSparks[this.publicSparks.length - 1]
+        : undefined
+    );
+    this.publicSparks.push(...newSparks);
+  }
+
+  getDateFromTimestamp(timeStamp: Timestamp) {
+    return new Date(
+      timeStamp.seconds * 1000 + timeStamp.nanoseconds / 1_000_000
+    );
   }
 }
