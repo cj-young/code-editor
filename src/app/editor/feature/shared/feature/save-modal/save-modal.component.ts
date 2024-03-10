@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Storage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { LocalStorageService } from '../../../../../shared/feature/local-storage-service/local-storage.service';
@@ -28,9 +28,9 @@ export class SaveModalComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private editorScreenshotService: EditorScreenshotService,
-    private fbStorage: Storage,
     private localStorageService: LocalStorageService,
-    private editorService: EditorService
+    private editorService: EditorService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -45,6 +45,7 @@ export class SaveModalComponent implements OnInit {
 
   onSubmit(e: SubmitEvent) {
     e.preventDefault();
+    if (this.isLoading) return;
     this.isLoading = true;
     this.screenshotDataUrl.subscribe(async (dataUrl) => {
       try {
@@ -61,6 +62,8 @@ export class SaveModalComponent implements OnInit {
           sparkId,
           imageUrl
         );
+        this.router.navigate(['saved', sparkId]);
+        this.onClose();
       } catch (error) {
         console.error(error);
         this.isLoading = false;

@@ -54,6 +54,7 @@ export class ShareModalComponent implements OnInit {
 
   onSubmit(e: SubmitEvent) {
     e.preventDefault();
+    this.isLoading = true;
     this.imageUrl.subscribe(async (newImageUrl) => {
       if (!newImageUrl) return;
       try {
@@ -76,6 +77,7 @@ export class ShareModalComponent implements OnInit {
         await this.router.navigate(['public-spark', docId]);
         this.onClose();
       } catch (error) {
+        this.isLoading = false;
         console.error(error);
       }
     });

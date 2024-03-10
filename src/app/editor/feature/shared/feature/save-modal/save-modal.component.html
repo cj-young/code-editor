@@ -10,7 +10,13 @@
       <app-xmark-svg class="fill-text md:w-4 md:h-4 h-6 w-6"></app-xmark-svg>
     </button>
   </div>
-  <form (submit)="onSubmit($event)" class="mt-8">
+  <form
+    (submit)="onSubmit($event)"
+    class="mt-8"
+    [style]="{
+      opacity: isLoading ? 0.5 : 1
+    }"
+  >
     <div class="relative">
       <label
         class="text-text-600 font-bold absolute top-0 left-2 -translate-y-1/2 px-1 rounded-md bg-background-100"
@@ -24,11 +30,17 @@
         [(ngModel)]="sparkName"
         name="sparkName"
         id="sparkName"
+        [readOnly]="isLoading"
       />
     </div>
     <button
       type="submit"
-      class="py-2 px-4 bg-accent text-text font-bold text-base rounded-md w-full md:w-auto mt-2 ml-auto block"
+      [class]="
+        'py-2 px-4 font-bold text-base rounded-md w-full md:w-auto mt-2 ml-auto block ' +
+        (isLoading
+          ? 'bg-background-200 text-text-600 cursor-auto'
+          : 'bg-accent text-text')
+      "
     >
       Save
     </button>
