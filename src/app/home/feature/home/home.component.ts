@@ -120,7 +120,6 @@ export class HomeComponent implements OnInit {
   }
 
   async onIntersectionChange(isIntersecting: boolean) {
-    console.log('RUNNING');
     this.isIntersectingSparkLoader = isIntersecting;
     if (!isIntersecting) return;
     if (this.isLoadingPublicSparks || this.isAllSparksLoaded) return;
