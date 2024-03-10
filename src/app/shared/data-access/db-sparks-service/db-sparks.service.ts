@@ -14,6 +14,7 @@ import {
   orderBy,
   query,
   startAfter,
+  where,
 } from '@angular/fire/firestore';
 import { SparkModel } from '../spark-model/spark-model';
 
@@ -58,13 +59,15 @@ export class DbSparksService {
         this.sparksCollection,
         orderBy(sortBy, sortOrder),
         startAfter(lastDoc),
-        limit(SPARK_QUERY_LIMIT)
+        limit(SPARK_QUERY_LIMIT),
+        where('isInGallery', '==', true)
       );
     } else {
       sparkQuery = query(
         this.sparksCollection,
         orderBy(sortBy, sortOrder),
-        limit(SPARK_QUERY_LIMIT)
+        limit(SPARK_QUERY_LIMIT),
+        where('isInGallery', '==', true)
       );
     }
 
