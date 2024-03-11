@@ -92,6 +92,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if (data.iframeName === 'iframe-dummy') {
+      return;
+    }
+
     if (data.type === 'error') {
       const { message, source, error } = data as {
         message: string;
