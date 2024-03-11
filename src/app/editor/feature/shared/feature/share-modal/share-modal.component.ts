@@ -8,6 +8,7 @@ import { DbSparksService } from '../../../../../shared/data-access/db-sparks-ser
 import { ModalService } from '../../../../../shared/feature/modal-service/modal.service';
 import { CheckSvgComponent } from '../../../../../shared/ui/check-svg/check-svg.component';
 import { XmarkSvgComponent } from '../../../../../shared/ui/xmark-svg/xmark-svg.component';
+import { CopyLinkModalComponent } from '../../../public-viewer/copy-link-modal/copy-link-modal.component';
 import { EditorService } from '../../data-access/editor-service/editor.service';
 import { EditorScreenshotService } from '../editor-screenshot/editor-screenshot.service';
 
@@ -49,6 +50,7 @@ export class ShareModalComponent implements OnInit {
   }
 
   onClose() {
+    console.log('share-modal');
     this.modalService.closeModal();
   }
 
@@ -74,10 +76,8 @@ export class ShareModalComponent implements OnInit {
           ),
           views: 0,
         });
-        await this.router.navigate(['public-spark', docId], {
-          queryParams: { showModal: 'true' },
-        });
-        this.onClose();
+        await this.router.navigate(['public-spark', docId]);
+        this.modalService.openModal(CopyLinkModalComponent);
       } catch (error) {
         this.isLoading = false;
         console.error(error);
