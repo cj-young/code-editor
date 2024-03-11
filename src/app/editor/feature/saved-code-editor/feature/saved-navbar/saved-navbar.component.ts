@@ -41,8 +41,6 @@ export class SavedNavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.editorService.sparkName.subscribe((newName) => {
-      console.log('THE SPARK NAME CHANGEDDDD');
-      console.log(newName);
       this.sparkName = newName;
     });
   }

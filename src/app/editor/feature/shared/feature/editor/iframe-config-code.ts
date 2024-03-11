@@ -246,9 +246,6 @@ import {toJpeg} from 'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/+esm'
         if (rgbaBackground) {
           mixedBackground = addRgbaToWhite(rgbaBackground);
         }
-
-        console.log(mixedBackground);
-
         toJpeg(document.documentElement, { backgroundColor: mixedBackground ?? "#ffffff", width: 1366, height: 768}).then(function(dataUrl) {
           parent.postMessage({type: "screenshotResult", dataUrl, id: parsed.id}, "*");
         })

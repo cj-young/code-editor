@@ -40,7 +40,6 @@ export class ShareModalComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const dataUrl =
       (await this.editorScreenshotService.getScreenShot()) as string;
-    console.log(dataUrl);
     const id = uuidv4();
     const imageUrl = await this.editorScreenshotService.uploadThumbail(
       dataUrl,
@@ -50,7 +49,6 @@ export class ShareModalComponent implements OnInit {
   }
 
   onClose() {
-    console.log('share-modal');
     this.modalService.closeModal();
   }
 

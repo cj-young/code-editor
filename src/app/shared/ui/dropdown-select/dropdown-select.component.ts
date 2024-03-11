@@ -42,7 +42,6 @@ export class DropdownSelectComponent<DisplayType, IdType> implements OnInit {
 
   onClick() {
     this.toggleExpand();
-    console.log('click');
   }
 
   toggleExpand() {
