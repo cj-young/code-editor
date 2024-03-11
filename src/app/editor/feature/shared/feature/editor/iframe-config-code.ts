@@ -7,17 +7,13 @@ import {toJpeg} from 'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/+esm'
   }
 
   window.onerror = (message, source, lineNumber, colNumber, error) => {
-    parent.postMessage(
-      {
-        type: "error",
-        message,
-        source,
-        lineNumber,
-        colNumber,
-        error,
-      },
-      "*"
-    );
+    sendConsoleMessage("error", {
+      message,
+      source,
+      lineNumber,
+      colNumber,
+      error,
+    })
   };
 
   const stringify = (obj) => {
