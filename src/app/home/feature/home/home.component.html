@@ -29,7 +29,11 @@
           label="Sort by"
         ></app-dropdown-select>
       </div>
-      @if (publicSparks.length > 0) {
+      @if (publicSparks.length === 0 && isAllSparksLoaded) {
+      <div class="w-full h-[10rem] flex items-center justify-center">
+        <p class="text-text-500 font-bold">There are no public Sparks to see</p>
+      </div>
+      } @else {
 
       <ul
         class="grid gap-3 mt-4 grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] relative"
@@ -67,10 +71,6 @@
         <div class="w-full aspect-[4/3] rounded-md bg-background-100"></div>
         }}
       </ul>
-      } @else {
-      <div class="w-full h-[10rem] flex items-center justify-center">
-        <p class="text-text-500 font-bold">There are no public Sparks to see</p>
-      </div>
       }
     </section>
   </main>
