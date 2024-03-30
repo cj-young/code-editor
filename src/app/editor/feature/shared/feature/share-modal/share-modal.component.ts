@@ -27,7 +27,7 @@ export class ShareModalComponent implements OnInit {
   sparkName: string = '';
   creatorName: string = '';
   addToGallery: boolean = false;
-  imageUrl = new BehaviorSubject<string | undefined>(undefined);
+  imageDataUrl = new BehaviorSubject<string | undefined>(undefined);
   isLoading = false;
   constructor(
     private modalService: ModalService,
@@ -40,12 +40,7 @@ export class ShareModalComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const dataUrl =
       (await this.editorScreenshotService.getScreenShot()) as string;
-    const id = uuidv4();
-    const imageUrl = await this.editorScreenshotService.uploadThumbail(
-      dataUrl,
-      id
-    );
-    this.imageUrl.next(imageUrl);
+    this.imageDataUrl.next(dataUrl);
   }
 
   onClose() {
@@ -55,9 +50,15 @@ export class ShareModalComponent implements OnInit {
   onSubmit(e: SubmitEvent) {
     e.preventDefault();
     this.isLoading = true;
-    this.imageUrl.subscribe(async (newImageUrl) => {
-      if (!newImageUrl) return;
+    this.imageDataUrl.subscribe(async (newDataUrl) => {
+      if (!newDataUrl) return;
       try {
+        const id = uuidv4();
+        const imageUrl = await this.editorScreenshotService.uploadThumbail(
+          newDataUrl,
+          id,
+          'shared'
+        );
         const docId = await this.dbSparksService.uploadSpark({
           code: {
             html: this.editorService.inputCode.value.html,
@@ -66,7 +67,7 @@ export class ShareModalComponent implements OnInit {
           },
           name: this.sparkName,
           isInGallery: this.addToGallery,
-          imageUrl: newImageUrl,
+          imageUrl: imageUrl,
           creatorName: this.creatorName,
           createdAt: new Timestamp(
             Math.floor(Date.now() / 1000),

@@ -43,8 +43,12 @@ export class EditorScreenshotService {
     });
   }
 
-  async uploadThumbail(dataUrl: string, sparkId: string): Promise<string> {
-    const storageRef = ref(this.fbStorage, `thumbnails/saved/${sparkId}`);
+  async uploadThumbail(
+    dataUrl: string,
+    sparkId: string,
+    type: 'saved' | 'shared'
+  ): Promise<string> {
+    const storageRef = ref(this.fbStorage, `thumbnails/${type}/${sparkId}`);
     const snapshot = await uploadString(storageRef, dataUrl, 'data_url');
     const url = await getDownloadURL(snapshot.ref);
     return url;

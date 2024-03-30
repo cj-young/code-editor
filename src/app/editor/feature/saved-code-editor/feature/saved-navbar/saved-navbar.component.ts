@@ -52,7 +52,8 @@ export class SavedNavbarComponent implements OnInit {
     const sparkId = this.editorService.sparkId.value ?? uuidv4();
     const imageUrl = await this.editorScreenshotService.uploadThumbail(
       dataUrl,
-      sparkId
+      sparkId,
+      'saved'
     );
 
     this.localStorageService.addSpark(

@@ -53,7 +53,8 @@ export class SaveModalComponent implements OnInit {
         const sparkId = uuidv4();
         const imageUrl = await this.editorScreenshotService.uploadThumbail(
           dataUrl,
-          sparkId
+          sparkId,
+          'saved'
         );
 
         this.localStorageService.addSpark(
