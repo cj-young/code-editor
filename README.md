@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a code editor built with Angular.
+This is a code editor built with Angular. Feel free to check out the live app [here](https://dev-forge-nine.vercel.app/).
 
 ### 🚀 Features
 
@@ -13,7 +13,7 @@ This is a code editor built with Angular.
 
 ### Getting Started
 
-This project is not currently hosted, but you can run it locally by cloning this repository.
+If you want, you can also run it locally by cloning this repository.
 To run the project after cloning, install the dependencies and start the server:
 
 ```bash
