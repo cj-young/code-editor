@@ -1,6 +1,6 @@
 <div class="w-full h-full grid grid-rows-[min-content_1fr]">
   <app-home-navbar></app-home-navbar>
-  <main class="px-16 overflow-y-auto">
+  <main class="md:px-16 px-4 overflow-y-auto">
     <section>
       <h2 class="text-text md:text-4xl text-3xl font-bold mt-16">
         Your Sparks
@@ -21,7 +21,7 @@
       </ul>
     </section>
     <section class="mb-[5rem]">
-      <div class="flex gap-4 items-center justify-between mt-16">
+      <div class="flex gap-4 items-center justify-between mt-16 flex-wrap">
         <h2 class="text-text md:text-4xl text-3xl font-bold">Gallery</h2>
         <app-dropdown-select
           [options]="sortDropdownOptions"
